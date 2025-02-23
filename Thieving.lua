@@ -1,7 +1,6 @@
 local Thieving = {}
 -- "Wood", "Blue", "Black", "Marble", "Steam Punk", "Tech", "Royal", "Purple Castle"
 function Thieving:Auto_Thieving_Selected_Function(Passed_Auto_Thieving_Selected)
-    print("Mutlidropdown changed:", table.concat(Passed_Auto_Thieving_Selected, ", "))
     for _, lockpick in ipairs(Passed_Auto_Thieving_Selected) do
         if lockpick == "Wood" then
             local args = {
@@ -60,6 +59,7 @@ function Thieving:Auto_Thieving_Selected_Function(Passed_Auto_Thieving_Selected)
             task.wait()
         end
     end
+    print("Mutlidropdown changed:", table.concat(Passed_Auto_Thieving_Selected, ", "))
 end
 
 return Thieving
