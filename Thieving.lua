@@ -5,49 +5,49 @@ function Thieving:Auto_Thieving_Selected_Function(Passed_Auto_Thieving_Selected)
         print(lockpick)
         if lockpick == "Wood" then
             local args = {
-                [1] = 1355
+                [1] = 1388
             }   
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Thieving_Thieve"):InvokeServer(unpack(args))
         end
         if lockpick == "Blue" then
             local args = {
-                [1] = 1353
+                [1] = 1390
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Thieving_Thieve"):InvokeServer(unpack(args))            
         end
         if lockpick == "Black" then
             local args = {
-                [1] = 1359
+                [1] = 1392
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Thieving_Thieve"):InvokeServer(unpack(args))
         end
         if lockpick == "Marble" then
             local args = {
-                [1] = 1356
+                [1] = 1387
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Thieving_Thieve"):InvokeServer(unpack(args))
         end
         if lockpick == "Steam Punk" then
             local args = {
-                [1] = 1358
+                [1] = 1386
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Thieving_Thieve"):InvokeServer(unpack(args))
         end
         if lockpick == "Tech" then
             local args = {
-                [1] = 1357
+                [1] = 1389
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Thieving_Thieve"):InvokeServer(unpack(args))
         end
         if lockpick == "Royal" then
             local args = {
-                [1] = 1354
+                [1] = 1391
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Thieving_Thieve"):InvokeServer(unpack(args))
         end
         if lockpick == "Purple Castle" then
             local args = {
-                [1] = 1360
+                [1] = 1385
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Thieving_Thieve"):InvokeServer(unpack(args))
         end
