@@ -2,6 +2,7 @@ local Thieving = {}
 -- "Wood", "Blue", "Black", "Marble", "Steam Punk", "Tech", "Royal", "Purple Castle"
 function Thieving:Auto_Thieving_Selected_Function(Passed_Auto_Thieving_Selected)
     for _, lockpick in ipairs(Passed_Auto_Thieving_Selected) do
+        print("Mutlidropdown changed:", table.concat(Passed_Auto_Thieving_Selected, ", "))
         if lockpick == "Wood" then
             local args = {
                 [1] = 1355
@@ -51,7 +52,6 @@ function Thieving:Auto_Thieving_Selected_Function(Passed_Auto_Thieving_Selected)
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Thieving_Thieve"):InvokeServer(unpack(args))
         end
     end
-    print("Mutlidropdown changed:", table.concat(Passed_Auto_Thieving_Selected, ", "))
 end
 
 return Thieving
