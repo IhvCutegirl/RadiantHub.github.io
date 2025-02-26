@@ -1,6 +1,6 @@
 -- game check
 if game.PlaceId == 18901165922 then 
-    local Current_Version = "V 0.4"
+    local Current_Version = "V 0.5"
 
     --calling the library
     local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
@@ -13,7 +13,7 @@ if game.PlaceId == 18901165922 then
         TabWidth = 160,
         Size = UDim2.fromOffset(830, 525),
         Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
-        Theme = "Dark",
+        Theme = "Darker",
         MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
     })
 
@@ -24,10 +24,14 @@ if game.PlaceId == 18901165922 then
     local Open_All_Portions_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Portions.lua"))()
     local Open_All_Fruits_Normal_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Fruits/Fruits_Normal.lua"))()
     local Open_All_Fruits_Shiny_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Fruits/Fruits_Shiny.lua"))()
+    local Auto_Upgrade_Mining_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/MiningUpgrades.lua"))()
     local Auto_Mine_Selected = {}
     local Auto_Thieving_Selected = {}
     --local Auto_Upgarde_Selected = {}
     local Is_Auto_Roll_Coins_Check = false
+    local Is_Auto_Breakables_Check = true
+    local Is_Auto_Collect_Coins_Check = false
+    local Is_Auto_Collect_Fruits_Check = false
     local Is_Auto_Thieving_Check = false
     local Is_Auto_Fish_Check = false
     local Is_Auto_Claim_Daily_Bonus_Check = false
@@ -40,11 +44,21 @@ if game.PlaceId == 18901165922 then
     local Is_Open_All_Fruits_Normal_Check = false
     local Is_Open_All_Fruits_Shiny_Check = false
     local Is_Auto_Upgrade_All_Check_Check = false
+    local Is_Auto_Upgrade_Mining_Check = false
+
+    local Players1 = game:GetService("Players")
+    local ReplicatedStorage1 = game:GetService("ReplicatedStorage")
+    local player1 = Players1.LocalPlayer
+    local character1 = player1.Character or player1.CharacterAdded:Wait()
+    local hrp1 = character1:WaitForChild("HumanoidRootPart")
+    -- Get the orbs folder
+    local OrbsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Orbs")
+
 
     local Tabs = {
         Main = Window:AddTab{
             Title = "Main",
-            Icon = "refresh-ccw-dot"
+            Icon = "house"
         },
         Auto_Event = Window:AddTab{
             Title = "Event",
@@ -52,7 +66,7 @@ if game.PlaceId == 18901165922 then
         },
         Auto_Upgrade = Window:AddTab{
             Title = "Auto Upgrade",
-            Icon = "arrow-big-up-dash"
+            Icon = "square-arrow-up"
         },
         Items = Window:AddTab{
             Title = "Items",
@@ -68,7 +82,10 @@ if game.PlaceId == 18901165922 then
         }
     }
     Window:SelectTab(1)
+
+    -- auto farm section
     local Auto_Farm_Section = Tabs.Main:AddSection("Auto Farm")
+
     Auto_Farm_Section:AddParagraph({
         Title = "Auto Farm Warning",
         Content = "Please Join The Official Discord For fixing Any Issue Or Suggesting Any New Feature :)"
@@ -101,6 +118,130 @@ if game.PlaceId == 18901165922 then
                 }
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("AutoRoll_Disable"):FireServer()
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("HiddenRoll_Disable"):FireServer()
+            end
+    end)
+
+    local Auto_Breakables = Auto_Farm_Section:AddToggle("MyToggle", 
+    {
+    Title = "Auto Breakables", 
+    Description = "Auto Breaks Breakables",
+    Default = false
+    })
+    Auto_Breakables:OnChanged(function(Auto_Breakables_Check)
+            Is_Auto_Breakables_Check=Auto_Breakables_Check
+            if Is_Auto_Breakables_Check then
+                Fluent:Notify{
+                    Title = "Looter Hub Notification",
+                    Content = "Auto Breakables Is Enabled",
+                    Duration = 0.1 -- Set to nil to make the notification not disappear
+                }
+                while Is_Auto_Breakables_Check do
+                    for _, object in pairs(workspace.__THINGS.Breakables:GetChildren()) do
+                        if object:FindFirstChild("1") or object:FindFirstChild("Bottom") or object:FindFirstChild("2") then
+                            local partNameAsNumber = tonumber(object.Name)
+                            for _, object1 in ipairs(workspace.__THINGS.Pets:GetChildren()) do
+
+                                local args = {
+                                    [1] = {
+                                        [object1.Name] = partNameAsNumber
+                                    }
+                                }
+
+                                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Breakables_JoinPetBulk"):FireServer(unpack(args))
+                            end
+                            while object.Parent == workspace.__THINGS.Breakables do
+                            task.wait(2)
+                            end
+                        end
+                    end
+                    task.wait(1)
+                end
+            else
+                Fluent:Notify{
+                    Title = "Looter Hub Notification",
+                    Content = "Auto Breakables Is Disabled",
+                    Duration = 0.1 -- Set to nil to make the notification not disappear
+                }
+            end
+    end)
+
+    local Auto_Collect_Coins = Auto_Farm_Section:AddToggle("MyToggle", 
+    {
+    Title = "Auto Collect Coins", 
+    Description = "Auto Collects Coins",
+    Default = false
+    })
+    Auto_Collect_Coins:OnChanged(function(Auto_Collect_Coins_Check)
+            Is_Auto_Collect_Coins_Check=Auto_Collect_Coins_Check
+            if Is_Auto_Collect_Coins_Check then
+                Fluent:Notify{
+                    Title = "Looter Hub Notification",
+                    Content = "Auto Collect Coins Is Enabled",
+                    Duration = 0.5 -- Set to nil to make the notification not disappear
+                }
+                for Index, Orb in ipairs(OrbsFolder:GetChildren()) do
+                    task.wait(0.1)
+                    if Orb then
+                    local Args = {
+                        [1] = {
+                        [1] = tonumber(Orb.Name)
+                        }
+                    }
+                    ReplicatedStorage1.Network:FindFirstChild("Orbs: Collect"):FireServer(unpack(Args))
+                    Orb:Destroy()
+                    end
+                end
+                OrbsFolder.ChildAdded:Connect(function(Orb)
+                task.wait()
+                if Orb then
+                    local Args = {
+                        [1] = {
+                        [1] = tonumber(Orb.Name)
+                        }
+                    }
+                    ReplicatedStorage1.Network:FindFirstChild("Orbs: Collect"):FireServer(unpack(Args))
+                    Orb:Destroy()
+                end
+                end)
+            else
+                Fluent:Notify{
+                    Title = "Looter Hub Notification",
+                    Content = "Auto Roll Coins Is Disabled",
+                    Duration = 0.5 -- Set to nil to make the notification not disappear
+                }
+            end
+    end)
+
+    local Auto_Collect_Fruits = Auto_Farm_Section:AddToggle("MyToggle", 
+    {
+    Title = "Auto Collect Fruits", 
+    Description = "Auto Collects Fruits",
+    Default = false
+    })
+    Auto_Collect_Fruits:OnChanged(function(Auto_Collect_Fruits_Check)
+            Is_Auto_Collect_Fruits_Check=Auto_Collect_Fruits_Check
+            if Is_Auto_Collect_Fruits_Check then
+                Fluent:Notify{
+                    Title = "Looter Hub Notification",
+                    Content = "Auto Collect Fruits Is Enabled",
+                    Duration = 0.5 -- Set to nil to make the notification not disappear
+                }
+                while Is_Auto_Collect_Fruits_Check do
+                    for _, object in pairs(workspace.__THINGS.Breakables:GetChildren()) do
+                        if object:FindFirstChild("base") then
+                            local partNameAsNumber = tonumber(object.Name)
+                            local hitbox = workspace.__THINGS.Breakables[partNameAsNumber].base.Hitbox
+                            firetouchinterest(hrp1, hitbox, 0)
+                        end
+                    end
+                    task.wait(10)
+                end
+            else
+                Fluent:Notify{
+                    Title = "Looter Hub Notification",
+                    Content = "Auto Collect Fruits Is Disabled",
+                    Duration = 0.5 -- Set to nil to make the notification not disappear
+                }
             end
     end)
 
@@ -286,6 +427,33 @@ if game.PlaceId == 18901165922 then
                 Content = "Auto Ice Fish Is Disabled",
                 Duration = 1 -- Set to nil to make the notification not disappear
             }
+        end
+    end)
+
+    --Upgrade Section
+    local Auto_Upgrade_All = Tabs.Auto_Upgrade:AddSection("Auto Upgrade All")
+
+    Auto_Upgrade_All:AddParagraph({
+        Title = "Use This Or Upgarde Specific, Dont Use Both At The Same Time!!!",
+    })
+
+    local Auto_Upgrade_Specific = Tabs.Auto_Upgrade:AddSection("Auto Upgrade Specific")
+
+    Auto_Upgrade_Specific:AddParagraph({
+        Title = "Use This Or Upgarde All, Dont Use Both At The Same Time!!!",
+    })
+
+    local Auto_Upgrade_Mining = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    {
+    Title = "Auto Mining Upgrades", 
+    Description = "Use it for only mining upgrades!!",
+    Default = false
+    })
+    Auto_Upgrade_Mining:OnChanged(function(Auto_Upgrade_Mining_Check)
+        Is_Auto_Upgrade_Mining_Check=Auto_Upgrade_Mining_Check
+        while Is_Auto_Upgrade_Mining_Check do
+            Auto_Upgrade_Mining_Calling:Mining_Upgrades_Specific()
+            task.wait()
         end
     end)
 
