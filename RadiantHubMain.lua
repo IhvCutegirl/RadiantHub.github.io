@@ -25,6 +25,7 @@ if game.PlaceId == 18901165922 then
     local Open_All_Fruits_Normal_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Fruits/Fruits_Normal.lua"))()
     local Open_All_Fruits_Shiny_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Fruits/Fruits_Shiny.lua"))()
     local Auto_Upgrade_Mining_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/MiningUpgrades.lua"))()
+    local Auto_Upgrade_Fishing_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/FishingUpgrades.lua"))()
     local Auto_Mine_Selected = {}
     local Auto_Thieving_Selected = {}
     --local Auto_Upgarde_Selected = {}
@@ -34,6 +35,9 @@ if game.PlaceId == 18901165922 then
     local Is_Auto_Collect_Fruits_Check = false
     local Is_Auto_Thieving_Check = false
     local Is_Auto_Fish_Check = false
+    local Is_Auto_Corrupted_Fish_Check = false
+    local Is_Auto_Frozen_Bait_Check = false
+    local Is_Auto_Corrupted_Bait_Check = false
     local Is_Auto_Claim_Daily_Bonus_Check = false
     local Is_Auto_Claim_Play_Time_Bonus_Check = false
     local Is_Auto_Mine_Check = false
@@ -45,6 +49,7 @@ if game.PlaceId == 18901165922 then
     local Is_Open_All_Fruits_Shiny_Check = false
     local Is_Auto_Upgrade_All_Check_Check = false
     local Is_Auto_Upgrade_Mining_Check = false
+    local Is_Auto_Upgrade_Fishing_Check = false
 
     local Players1 = game:GetService("Players")
     local ReplicatedStorage1 = game:GetService("ReplicatedStorage")
@@ -233,6 +238,7 @@ if game.PlaceId == 18901165922 then
                             local hitbox = workspace.__THINGS.Breakables[partNameAsNumber].base.Hitbox
                             firetouchinterest(hrp1, hitbox, 0)
                         end
+                        task.wait()
                     end
                     task.wait(10)
                 end
@@ -400,6 +406,27 @@ if game.PlaceId == 18901165922 then
         Title = "Use Only After Iron Rod Has Been Unlocked!!!",
     })
 
+    local Auto_Ice_Bait = Fishing:AddToggle("MyToggle", 
+    {
+    Title = "Auto Use Frozen Bait", 
+    Description = "Auto consumes Frozen bait",
+    Default = false
+    })
+
+    Auto_Ice_Bait:OnChanged(function(Auto_Ice_Bait_Check)
+        Is_Auto_Frozen_Bait_Check=Auto_Ice_Bait_Check
+        if Is_Auto_Frozen_Bait_Check then
+            while Is_Auto_Frozen_Bait_Check do
+                local args = {
+                    [1] = "36d511d010d546e6af243e3f577963af", --frozen bait
+                    [2] = 1
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Consumables_Consume"):InvokeServer(unpack(args))
+                task.wait()
+            end
+        end
+    end)
+
     local Auto_Ice_Fish = Fishing:AddToggle("MyToggle", 
     {
     Title = "Auto Ice Fish", 
@@ -419,13 +446,73 @@ if game.PlaceId == 18901165922 then
                     [1] = "Ice"
                 }
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Fish"):InvokeServer(unpack(args))-- Setting to fish
+
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer() --Successfully Catch Fish
+                task.wait()
             end
         else
             Fluent:Notify{
                 Title = "Looter Hub Notification",
                 Content = "Auto Ice Fish Is Disabled",
                 Duration = 1 -- Set to nil to make the notification not disappear
+            }
+        end
+    end)
+
+    Fishing:AddParagraph({
+        Title = "Use Only If You Have Coruptted Bait!!!",
+    })
+
+    local Auto_Corrupted_Bait = Fishing:AddToggle("MyToggle", 
+    {
+    Title = "Auto Use Corrupted Bait", 
+    Description = "Auto consumes Corrupted bait",
+    Default = false
+    })
+
+    Auto_Corrupted_Bait:OnChanged(function(Auto_Corrupted_Bait_Check)
+        Is_Auto_Corrupted_Bait_Check=Auto_Corrupted_Bait_Check
+        if Is_Auto_Corrupted_Bait_Check then
+            while Is_Auto_Corrupted_Bait_Check do
+                local args = {
+                    [1] = "b1176127ce004d3ca7ad3d9ec17afca1", -- curupted bait
+                    [2] = 1
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Consumables_Consume"):InvokeServer(unpack(args))
+                task.wait()
+            end
+        end
+    end)
+
+    local Auto_Corrupted_Fish = Fishing:AddToggle("MyToggle", 
+    {
+    Title = "Auto Corrupted Fish", 
+    Description = "Auto fishes in the Corrupted region",
+    Default = false
+    })
+
+    Auto_Corrupted_Fish:OnChanged(function(Auto_Corrupted_Fish_Check)
+        Is_Auto_Corrupted_Fish_Check=Auto_Corrupted_Fish_Check
+        if Is_Auto_Corrupted_Fish_Check then
+            Fluent:Notify{
+                Title = "Looter Hub Notification",
+                Content = "Auto Corrupted Fish Is Enabled",
+                Duration = 0.5 -- Set to nil to make the notification not disappear
+            }
+            while Is_Auto_Corrupted_Fish_Check do
+                local args = {
+                    [1] = "Corrupted"
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Fish"):InvokeServer(unpack(args))
+
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer()
+                task.wait()
+            end
+        else
+            Fluent:Notify{
+                Title = "Looter Hub Notification",
+                Content = "Auto Corrupted Fish Is Disabled",
+                Duration = 0.5 -- Set to nil to make the notification not disappear
             }
         end
     end)
@@ -453,6 +540,20 @@ if game.PlaceId == 18901165922 then
         Is_Auto_Upgrade_Mining_Check=Auto_Upgrade_Mining_Check
         while Is_Auto_Upgrade_Mining_Check do
             Auto_Upgrade_Mining_Calling:Mining_Upgrades_Specific()
+            task.wait()
+        end
+    end)
+
+    local Auto_Upgrade_Fishing = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    {
+    Title = "Auto Fishing Upgrades", 
+    Description = "Use it for only fishing upgrades!!",
+    Default = false
+    })
+    Auto_Upgrade_Fishing:OnChanged(function(Auto_Upgrade_Fishing_Check)
+        Is_Auto_Upgrade_Fishing_Check=Auto_Upgrade_Fishing_Check
+        while Is_Auto_Upgrade_Fishing_Check do
+            Auto_Upgrade_Fishing_Calling:Fishing_Upgrades_Specific()
             task.wait()
         end
     end)
@@ -542,6 +643,8 @@ if game.PlaceId == 18901165922 then
             task.wait()
         end
     end)
+
+    local Baits = Tabs.Items:AddSection("Baits")
 
 
     --Hub loaded noti
