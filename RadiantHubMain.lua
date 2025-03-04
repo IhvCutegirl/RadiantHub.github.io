@@ -26,6 +26,10 @@ if game.PlaceId == 18901165922 then
     local Open_All_Fruits_Shiny_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Fruits/Fruits_Shiny.lua"))()
     local Auto_Upgrade_Mining_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/MiningUpgrades.lua"))()
     local Auto_Upgrade_Fishing_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/FishingUpgrades.lua"))()
+    local Auto_Upgrade_Ice_Fishing_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/IceFishingUpgrades.lua"))()
+    local Use_All_Normal_Baits_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Baits.lua"))()
+
+
     local Auto_Mine_Selected = {}
     local Auto_Thieving_Selected = {}
     --local Auto_Upgarde_Selected = {}
@@ -41,15 +45,18 @@ if game.PlaceId == 18901165922 then
     local Is_Auto_Claim_Daily_Bonus_Check = false
     local Is_Auto_Claim_Play_Time_Bonus_Check = false
     local Is_Auto_Mine_Check = false
+    local Is_Auto_Magma_Scroll_Check = false
     local Is_Auto_Ice_Fish_Check =  false
     local Is_Open_Bundle_O_Scrolls_Check = false
     local Is_Open_Bundle_O_Boosts_Check = false
     local Is_Open_All_Portions_Check = false
     local Is_Open_All_Fruits_Normal_Check = false
     local Is_Open_All_Fruits_Shiny_Check = false
+    local Is_Use_All_Normal_Baits_Check = false
     local Is_Auto_Upgrade_All_Check_Check = false
     local Is_Auto_Upgrade_Mining_Check = false
     local Is_Auto_Upgrade_Fishing_Check = false
+    local Is_Auto_Upgrade_Ice_Fishing_Check = false
 
     local Players1 = game:GetService("Players")
     local ReplicatedStorage1 = game:GetService("ReplicatedStorage")
@@ -339,6 +346,28 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
+    local Auto_Magma_Scroll = Mining:AddToggle("MyToggle", 
+    {
+    Title = "Auto Use Magma Scroll",
+    Description = "Auto consumes Magma scroll",
+    Default = false
+    })
+
+    Auto_Magma_Scroll:OnChanged(function(Auto_Magma_Scroll_Check)
+        Is_Auto_Magma_Scroll_Check=Auto_Magma_Scroll_Check
+        if Is_Auto_Magma_Scroll_Check then
+            while Is_Auto_Magma_Scroll_Check do
+                local args = {
+                    [1] = "748c6af73ccc4c509c0ac106621c087c", -- magma scroll
+                    [2] = 1
+                }
+
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Consumables_Consume"):InvokeServer(unpack(args))
+                task.wait()
+            end
+        end
+    end)
+
     local Auto_Mine = Mining:AddToggle("MyToggle", 
     {
     Title = "Auto Mine", 
@@ -558,6 +587,20 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
+    local Auto_Upgrade_Ice_Fishing = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    {
+    Title = "Auto Ice Fishing Upgrades", 
+    Description = "Use it for only Ice fishing upgrades!!",
+    Default = false
+    })
+    Auto_Upgrade_Ice_Fishing:OnChanged(function(Auto_Upgrade_Ice_Fishing_Check)
+        Is_Auto_Upgrade_Ice_Fishing_Check=Auto_Upgrade_Ice_Fishing_Check
+        while Is_Auto_Upgrade_Ice_Fishing_Check do
+            Auto_Upgrade_Ice_Fishing_Calling:Ice_Fishing_Upgrades_Specific()
+            task.wait()
+        end
+    end)
+
 
     -- Items Section
     local Lootboxes = Tabs.Items:AddSection("Lootboxes")
@@ -645,6 +688,20 @@ if game.PlaceId == 18901165922 then
     end)
 
     local Baits = Tabs.Items:AddSection("Baits")
+
+    local Use_All_Normal_Baits = Baits:AddToggle("MyToggle", 
+    {
+    Title = "Use All Portions", 
+    Description = "",
+    Default = false
+    })
+    Use_All_Normal_Baits:OnChanged(function(Use_All_Normal_Baits_Check)
+        Is_Use_All_Normal_Baits_Check=Use_All_Normal_Baits_Check
+        while Is_Use_All_Normal_Baits_Check do
+            Use_All_Normal_Baits_Calling:Consume_Normal_Baits_All()
+            task.wait()
+        end
+    end)
 
 
     --Hub loaded noti
