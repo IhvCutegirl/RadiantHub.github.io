@@ -27,7 +27,8 @@ if game.PlaceId == 18901165922 then
     local Auto_Upgrade_Mining_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/MiningUpgrades.lua"))()
     local Auto_Upgrade_Fishing_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/FishingUpgrades.lua"))()
     local Auto_Upgrade_Ice_Fishing_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/IceFishingUpgrades.lua"))()
-    local Use_All_Normal_Baits_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Baits.lua"))()
+    local Use_All_Normal_Baits_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Fishing/Baits.lua"))()
+    local Open_All_Fishing_Chests_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Fishing/FishingChests.lua"))()
 
 
     local Auto_Mine_Selected = {}
@@ -52,6 +53,8 @@ if game.PlaceId == 18901165922 then
     local Is_Open_All_Portions_Check = false
     local Is_Open_All_Fruits_Normal_Check = false
     local Is_Open_All_Fruits_Shiny_Check = false
+    local Is_Open_All_Fishing_Chests_Check = false
+    local Is_Open_Frozen_Fishing_Chests_Check = false
     local Is_Use_All_Normal_Baits_Check = false
     local Is_Auto_Upgrade_All_Check_Check = false
     local Is_Auto_Upgrade_Mining_Check = false
@@ -687,11 +690,44 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Baits = Tabs.Items:AddSection("Baits")
+    local Fishing_Items = Tabs.Items:AddSection("Baits")
 
-    local Use_All_Normal_Baits = Baits:AddToggle("MyToggle", 
+    local Open_All_Fishing_Chests = Fishing_Items:AddToggle("MyToggle", 
     {
-    Title = "Use All Portions", 
+    Title = "Open All Normal Fishing Chests", 
+    Description = "",
+    Default = false
+    })
+    Open_All_Fishing_Chests:OnChanged(function(Open_All_Fishing_Chests_Check)
+        Is_Open_All_Fishing_Chests_Check=Open_All_Fishing_Chests_Check
+        while Is_Open_All_Fishing_Chests_Check do
+            Open_All_Fishing_Chests_Calling:Use_All_Fishing_Chests()
+            task.wait()
+        end
+    end)
+
+    local Open_Frozen_Fishing_Chests = Fishing_Items:AddToggle("MyToggle", 
+    {
+    Title = "Open Frozen Fishing Chests", 
+    Description = "",
+    Default = false
+    })
+    Open_Frozen_Fishing_Chests:OnChanged(function(Open_Frozen_Fishing_Chests_Check)
+        Is_Open_Frozen_Fishing_Chests_Check=Open_Frozen_Fishing_Chests_Check
+        while Is_Open_Frozen_Fishing_Chests_Check do
+            local args = {
+                [1] = "5588cf87e36f46919b11e4d901f33990",
+                [2] = 1
+            }
+
+            game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Lootbox: Open"):InvokeServer(unpack(args))
+            task.wait()
+        end
+    end)
+
+    local Use_All_Normal_Baits = Fishing_Items:AddToggle("MyToggle", 
+    {
+    Title = "Use All Normal Baits", 
     Description = "",
     Default = false
     })
