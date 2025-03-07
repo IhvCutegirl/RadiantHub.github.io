@@ -1,6 +1,6 @@
 -- game check
 if game.PlaceId == 18901165922 then 
-    local Current_Version = "V 0.5"
+    local Current_Version = "V 0.6"
 
     --calling the library
     local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
@@ -18,6 +18,7 @@ if game.PlaceId == 18901165922 then
     })
 
     -- global variables
+    --Modules
     --local Auto_Upgrade_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/DevLooterHub.github.io/refs/heads/main/Upgrades.lua?token=GHSAT0AAAAAAC6KVHR4BWWSJMKYWPFVCWCUZ5Z6ITQ"))()
     local Auto_Thieving_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Thieving.lua"))()
     local Auto_Mine_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Mining.lua"))()
@@ -29,8 +30,10 @@ if game.PlaceId == 18901165922 then
     local Auto_Upgrade_Ice_Fishing_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/IceFishingUpgrades.lua"))()
     local Use_All_Normal_Baits_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Fishing/Baits.lua"))()
     local Open_All_Fishing_Chests_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Fishing/FishingChests.lua"))()
+    local Auto_Boating_Fish_Upgrades_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/Boat_Upgrades.lua"))()
+    local Auto_Upgrade_Boat_Fishing_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/BoatFishingUpgrades.lua"))()
 
-
+    --Function Checkers
     local Auto_Mine_Selected = {}
     local Auto_Thieving_Selected = {}
     --local Auto_Upgarde_Selected = {}
@@ -38,13 +41,18 @@ if game.PlaceId == 18901165922 then
     local Is_Auto_Breakables_Check = true
     local Is_Auto_Collect_Coins_Check = false
     local Is_Auto_Collect_Fruits_Check = false
+    local Is_Auto_Collect_Flying_Gifts_Check = false
+    local Is_Auto_Collect_Hidden_Gifts_Check = false
     local Is_Auto_Thieving_Check = false
     local Is_Auto_Fish_Check = false
+    local Is_Auto_Boating_Fish_Check = false
+    local Is_Auto_Boating_Fish_Upgrades_Check = false
+    local Is_Auto_Kraken_Fish_Check = false
     local Is_Auto_Corrupted_Fish_Check = false
     local Is_Auto_Frozen_Bait_Check = false
     local Is_Auto_Corrupted_Bait_Check = false
     local Is_Auto_Claim_Daily_Bonus_Check = false
-    local Is_Auto_Claim_Play_Time_Bonus_Check = false
+    local Is_Auto_Bonus_Collect_Check = false
     local Is_Auto_Mine_Check = false
     local Is_Auto_Magma_Scroll_Check = false
     local Is_Auto_Ice_Fish_Check =  false
@@ -56,18 +64,23 @@ if game.PlaceId == 18901165922 then
     local Is_Open_All_Fishing_Chests_Check = false
     local Is_Open_Frozen_Fishing_Chests_Check = false
     local Is_Use_All_Normal_Baits_Check = false
-    local Is_Auto_Upgrade_All_Check_Check = false
+    local Is_Auto_Upgrade_All_Check = false
     local Is_Auto_Upgrade_Mining_Check = false
     local Is_Auto_Upgrade_Fishing_Check = false
     local Is_Auto_Upgrade_Ice_Fishing_Check = false
-
-    local Players1 = game:GetService("Players")
-    local ReplicatedStorage1 = game:GetService("ReplicatedStorage")
-    local player1 = Players1.LocalPlayer
-    local character1 = player1.Character or player1.CharacterAdded:Wait()
-    local hrp1 = character1:WaitForChild("HumanoidRootPart")
-    -- Get the orbs folder
+    local Is_Auto_Upgrade_Boat_Fishing_Check = false
+    local Orbs_Collector
+    --Get Services
+    local Players = game:GetService("Players")
+    local Replicated_Storage = game:GetService("ReplicatedStorage")
+    local Player_Character = Players.LocalPlayer.Character
+    local Humanoid_Root_Part = Player_Character:WaitForChild("HumanoidRootPart")
+    local Character_Humanoid = Player_Character:WaitForChild("Humanoid")
+    -- Get folders
     local OrbsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Orbs")
+    local Auto_Bonus_Collect_Timer = workspace.MAP.INTERACT.Machines.RetentionDice.Billboard.BillboardGui.Timer.Text
+    local Flying_Gifts = workspace.__THINGS:WaitForChild("FlyingGifts")
+    local Hidden_Gifts = workspace.__THINGS:WaitForChild("HiddenGifts")
 
 
     local Tabs = {
@@ -136,6 +149,26 @@ if game.PlaceId == 18901165922 then
             end
     end)
 
+    local Auto_Bonus_Collect = Auto_Farm_Section:AddToggle("MyToggle", 
+    {
+    Title = "Auto Bonus Roll Collect", 
+    Description = "Auto rolls the yellow coin",
+    Default = false
+    })
+    Auto_Bonus_Collect:OnChanged(function(Auto_Bonus_Collect_Check)
+            Is_Auto_Bonus_Collect_Check=Auto_Bonus_Collect_Check
+            while Is_Auto_Bonus_Collect_Check do
+                if Auto_Bonus_Collect_Timer == "CLAIM NOW!" then
+                    Auto_Bonus_Collect_Check = false
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Retention Dice: Claim"):FireServer()
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Bonus Rolls: Claim"):InvokeServer()
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Bonus Rolls: Reject"):FireServer()
+                    Auto_Bonus_Collect_Check = true
+                end
+                task.wait(0.1)
+            end
+    end)
+
     local Auto_Breakables = Auto_Farm_Section:AddToggle("MyToggle", 
     {
     Title = "Auto Breakables", 
@@ -195,30 +228,36 @@ if game.PlaceId == 18901165922 then
                     Duration = 0.5 -- Set to nil to make the notification not disappear
                 }
                 for Index, Orb in ipairs(OrbsFolder:GetChildren()) do
-                    task.wait(0.1)
+                    task.wait()
                     if Orb then
                     local Args = {
                         [1] = {
                         [1] = tonumber(Orb.Name)
                         }
                     }
-                    ReplicatedStorage1.Network:FindFirstChild("Orbs: Collect"):FireServer(unpack(Args))
+                    Replicated_Storage.Network:FindFirstChild("Orbs: Collect"):FireServer(unpack(Args))
                     Orb:Destroy()
                     end
                 end
-                OrbsFolder.ChildAdded:Connect(function(Orb)
+                Orbs_Collector = OrbsFolder.ChildAdded:Connect(function(Orb)
                 task.wait()
+                if not Is_Auto_Collect_Coins_Check then
+                return  -- Exit early if the flag is false
+                end
                 if Orb then
                     local Args = {
                         [1] = {
                         [1] = tonumber(Orb.Name)
                         }
                     }
-                    ReplicatedStorage1.Network:FindFirstChild("Orbs: Collect"):FireServer(unpack(Args))
+                    Replicated_Storage.Network:FindFirstChild("Orbs: Collect"):FireServer(unpack(Args))
                     Orb:Destroy()
                 end
                 end)
             else
+                if Orbs_Collector then
+                    Orbs_Collector:Disconnect()  -- Stop listening for new orbs
+                 end
                 Fluent:Notify{
                     Title = "Looter Hub Notification",
                     Content = "Auto Roll Coins Is Disabled",
@@ -246,11 +285,11 @@ if game.PlaceId == 18901165922 then
                         if object:FindFirstChild("base") then
                             local partNameAsNumber = tonumber(object.Name)
                             local hitbox = workspace.__THINGS.Breakables[partNameAsNumber].base.Hitbox
-                            firetouchinterest(hrp1, hitbox, 0)
+                            firetouchinterest(Humanoid_Root_Part, hitbox, 0)
+                            firetouchinterest(Humanoid_Root_Part, hitbox, 1)
                         end
-                        task.wait()
+                        task.wait(0.1)
                     end
-                    task.wait(10)
                 end
             else
                 Fluent:Notify{
@@ -258,6 +297,57 @@ if game.PlaceId == 18901165922 then
                     Content = "Auto Collect Fruits Is Disabled",
                     Duration = 0.5 -- Set to nil to make the notification not disappear
                 }
+            end
+    end)
+
+    local Auto_Collect_Flying_Gifts = Auto_Farm_Section:AddToggle("MyToggle", 
+    {
+    Title = "Auto Collect Flying Gifts", 
+    Description = "Auto Collects Flying Gifts",
+    Default = false
+    })
+    Auto_Collect_Flying_Gifts:OnChanged(function(Auto_Collect_Flying_Gifts_Check)
+            Is_Auto_Collect_Flying_Gifts_Check=Auto_Collect_Flying_Gifts_Check
+            while Is_Auto_Collect_Flying_Gifts_Check do
+                if Flying_Gifts:GetChildren() ~= 0 then
+                    local model = Flying_Gifts:FindFirstChild("Model")
+                    if model then
+                    local Balloon_ID = workspace.__THINGS.FlyingGifts.Model.Balloon:GetAttribute("FlyingGiftUID")
+                    local args = {
+                        [1] = Balloon_ID
+                    }
+
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("FlyingGifts_Claim"):FireServer(unpack(args))
+                    workspace.__THINGS.FlyingGifts.Model:Destroy()
+                    end
+                end
+                task.wait(0.1)
+            end
+    end)
+
+    local Auto_Collect_Hidden_Gifts = Auto_Farm_Section:AddToggle("MyToggle", 
+    {
+    Title = "Auto Collect Hidden Gifts", 
+    Description = "Auto Collects Hidden Gifts",
+    Default = false
+    })
+    Auto_Collect_Hidden_Gifts:OnChanged(function(Auto_Collect_Hidden_Gifts_Check)
+            Is_Auto_Collect_Hidden_Gifts_Check=Auto_Collect_Hidden_Gifts_Check
+            while Is_Auto_Collect_Hidden_Gifts_Check do
+                if Hidden_Gifts:GetChildren() ~= 0 then
+                    local Before_Hidden_Gifts_Collection = Humanoid_Root_Part.CFrame
+                    for _, child in ipairs(Hidden_Gifts:GetChildren()) do
+                        local Hidden_Gift_Model = child:FindFirstChild("Model")
+                        if Hidden_Gift_Model then
+                            Character_Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                            Humanoid_Root_Part.CFrame = Hidden_Gift_Model.CFrame
+                            task.wait(0.5)
+                        end
+                    end
+                    Character_Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                    Humanoid_Root_Part.CFrame = Before_Hidden_Gifts_Collection
+                end
+                task.wait()
             end
     end)
 
@@ -424,6 +514,7 @@ if game.PlaceId == 18901165922 then
                 }
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Fish"):InvokeServer(unpack(args))-- Setting to fish
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer() --Successfully Catch Fish
+                task.wait()
             end
         else
             Fluent:Notify{
@@ -433,6 +524,70 @@ if game.PlaceId == 18901165922 then
             }
         end
     end)
+
+    Fishing:AddParagraph({
+        Title = "███►─═ 🅱🅾🅰🆃 🆂🅴🅲🆃🅸🅾🅽 ═─◄███",
+    })
+
+    local Auto_Boating_Fish = Fishing:AddToggle("MyToggle", 
+    {
+    Title = "Auto Boat Fish", 
+    Description = "Auto Fishes in the boat region",
+    Default = false
+    })
+    Auto_Boating_Fish:OnChanged(function(Auto_Boating_Fish_Check)
+        Is_Auto_Boating_Fish_Check=Auto_Boating_Fish_Check
+        if Is_Auto_Boating_Fish_Check then
+            while Is_Auto_Boating_Fish_Check do
+                local args = {
+                    [1] = "Boating"
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Fish"):InvokeServer(unpack(args)) -- Setting to fish
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer() --Successfully Catch Fish
+                task.wait()
+            end
+        end
+    end)
+
+    local Auto_Kraken_Fish = Fishing:AddToggle("MyToggle", 
+    {
+    Title = "Auto Kraken Fish", 
+    Description = "YOU NEED TO USE KRAKEN TENTACLE BEFORE USING THIS",
+    Default = false
+    })
+    Auto_Kraken_Fish:OnChanged(function(Auto_Kraken_Fish_Check)
+        Is_Auto_Kraken_Fish_Check=Auto_Kraken_Fish_Check
+        if Is_Auto_Kraken_Fish_Check then
+            while Is_Auto_Kraken_Fish_Check do
+                local args = {
+                    [1] = "Kraken"
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Fish"):InvokeServer(unpack(args))
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer()
+                task.wait()
+            end
+        end
+    end)
+
+    local Auto_Boating_Fish_Upgrades = Fishing:AddToggle("MyToggle", 
+    {
+    Title = "Auto Boat Upgrades", 
+    Description = "Auto upgardes the boat stuff",
+    Default = false
+    })
+    Auto_Boating_Fish_Upgrades:OnChanged(function(Auto_Boating_Fish_Upgrades_Check)
+        Is_Auto_Boating_Fish_Upgrades_Check=Auto_Boating_Fish_Upgrades_Check
+        if Is_Auto_Boating_Fish_Upgrades_Check then
+            while Is_Auto_Boating_Fish_Upgrades_Check do
+                Auto_Boating_Fish_Upgrades_Calling:Boat_Upgrades_Specific()
+                task.wait()
+            end
+        end
+    end)
+
+    Fishing:AddParagraph({
+        Title = "█████████►─══─◄█████████",
+    })
 
     Fishing:AddParagraph({
         Title = "Use Only After Iron Rod Has Been Unlocked!!!",
@@ -478,7 +633,6 @@ if game.PlaceId == 18901165922 then
                     [1] = "Ice"
                 }
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Fish"):InvokeServer(unpack(args))-- Setting to fish
-
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer() --Successfully Catch Fish
                 task.wait()
             end
@@ -536,7 +690,6 @@ if game.PlaceId == 18901165922 then
                     [1] = "Corrupted"
                 }
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Fish"):InvokeServer(unpack(args))
-
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer()
                 task.wait()
             end
@@ -600,6 +753,20 @@ if game.PlaceId == 18901165922 then
         Is_Auto_Upgrade_Ice_Fishing_Check=Auto_Upgrade_Ice_Fishing_Check
         while Is_Auto_Upgrade_Ice_Fishing_Check do
             Auto_Upgrade_Ice_Fishing_Calling:Ice_Fishing_Upgrades_Specific()
+            task.wait()
+        end
+    end)
+
+    local Auto_Upgrade_Boat_Fishing = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    {
+    Title = "Auto Boat Fishing Upgrades", 
+    Description = "Use it for only Boat fishing upgrades!!",
+    Default = false
+    })
+    Auto_Upgrade_Boat_Fishing:OnChanged(function(Auto_Upgrade_Boat_Fishing_Check)
+        Is_Auto_Upgrade_Boat_Fishing_Check=Auto_Upgrade_Boat_Fishing_Check
+        while Is_Auto_Upgrade_Boat_Fishing_Check do
+            Auto_Upgrade_Boat_Fishing_Calling:Boat_Fishing_Upgrades_Specific()
             task.wait()
         end
     end)
