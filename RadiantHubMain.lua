@@ -335,17 +335,22 @@ if game.PlaceId == 18901165922 then
             Is_Auto_Collect_Hidden_Gifts_Check=Auto_Collect_Hidden_Gifts_Check
             while Is_Auto_Collect_Hidden_Gifts_Check do
                 if Hidden_Gifts:GetChildren() ~= 0 then
-                    local Before_Hidden_Gifts_Collection = Humanoid_Root_Part.CFrame
+                    local Hidden_Gifts_Tp_Checker = 0
+                    local Pos_Before_Hidden_Gifts_Collection = Humanoid_Root_Part.CFrame
                     for _, child in ipairs(Hidden_Gifts:GetChildren()) do
                         local Hidden_Gift_Model = child:FindFirstChild("Model")
                         if Hidden_Gift_Model then
                             Character_Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
                             Humanoid_Root_Part.CFrame = Hidden_Gift_Model.CFrame
+                            Hidden_Gifts_Tp_Checker = Hidden_Gifts_Tp_Checker + 1
                             task.wait(0.5)
                         end
                     end
-                    Character_Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-                    Humanoid_Root_Part.CFrame = Before_Hidden_Gifts_Collection
+                    if Hidden_Gifts_Tp_Checker > 0 then
+                        Character_Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                        Humanoid_Root_Part.CFrame = Pos_Before_Hidden_Gifts_Collection
+                        Hidden_Gifts_Tp_Checker = 0
+                    end
                 end
                 task.wait()
             end
