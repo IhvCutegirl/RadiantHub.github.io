@@ -1,6 +1,6 @@
 -- game check
 if game.PlaceId == 18901165922 then 
-    local Current_Version = "V 0.6"
+    local Current_Version = "V 0.7"
 
     --calling the library
     local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
@@ -37,8 +37,8 @@ if game.PlaceId == 18901165922 then
     local Auto_Mine_Selected = {}
     local Auto_Thieving_Selected = {}
     --local Auto_Upgarde_Selected = {}
-    local Is_Auto_Roll_Coins_Check = false
-    local Is_Auto_Breakables_Check = true
+    local Is_Auto_Roll_Egg_Check = false
+    local Is_Auto_Breakables_Check = false
     local Is_Auto_Collect_Coins_Check = false
     local Is_Auto_Collect_Fruits_Check = false
     local Is_Auto_Collect_Flying_Gifts_Check = false
@@ -78,9 +78,18 @@ if game.PlaceId == 18901165922 then
     local Character_Humanoid = Player_Character:WaitForChild("Humanoid")
     -- Get folders
     local OrbsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Orbs")
-    local Auto_Bonus_Collect_Timer = workspace.MAP.INTERACT.Machines.RetentionDice.Billboard.BillboardGui.Timer.Text
     local Flying_Gifts = workspace.__THINGS:WaitForChild("FlyingGifts")
     local Hidden_Gifts = workspace.__THINGS:WaitForChild("HiddenGifts")
+    -- Notifications controlers
+    local Auto_Roll_Egg_Notification = 0
+    local Auto_Breakables_Notification = 0
+    local Auto_Collect_Coins_Notification = 0
+    local Auto_Collect_Fruits_Notification = 0
+    local Auto_Mine_Notification = 0
+    local Auto_Fish_Notification = 0
+    local Auto_Thieving_Notification = 0
+    local Auto_Ice_Fish_Notification = 0
+    local Auto_Corrupted_Fish_Notification = 0
 
 
     local Tabs = {
@@ -118,32 +127,37 @@ if game.PlaceId == 18901165922 then
         Title = "Auto Farm Warning",
         Content = "Please Join The Official Discord For fixing Any Issue Or Suggesting Any New Feature :)"
     })
-    local Auto_Roll_Coins = Auto_Farm_Section:AddToggle("MyToggle", 
+    local Auto_Roll_Egg = Auto_Farm_Section:AddToggle("MyToggle", 
     {
-    Title = "Auto Roll Coins", 
-    Description = "Auto rolls the yellow coin",
+    Title = "Auto Roll Egg", 
+    Description = "Auto rolls the egg",
     Default = false
     })
-    Auto_Roll_Coins:OnChanged(function(Auto_Roll_Coins_Check)
-            Is_Auto_Roll_Coins_Check=Auto_Roll_Coins_Check
-            if Is_Auto_Roll_Coins_Check then
+    Auto_Roll_Egg:OnChanged(function(Auto_Roll_Egg_Check)
+            Is_Auto_Roll_Egg_Check=Auto_Roll_Egg_Check
+            if Is_Auto_Roll_Egg_Check then
                 Fluent:Notify{
                     Title = "Looter Hub Notification",
-                    Content = "Auto Roll Coins Is Enabled",
+                    Content = "Auto Roll Egg Is Enabled",
                     Duration = 1 -- Set to nil to make the notification not disappear
                 }
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("AutoRoll_Enable"):FireServer()
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("HiddenRoll_Enable"):FireServer()
-                while Is_Auto_Roll_Coins_Check do
+                while Is_Auto_Roll_Egg_Check do
                     game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Eggs_Roll"):InvokeServer()
                     task.wait()
                 end
             else
+                if Auto_Roll_Egg_Notification > 0 then
                 Fluent:Notify{
                     Title = "Looter Hub Notification",
-                    Content = "Auto Roll Coins Is Disabled",
+                    Content = "Auto Roll Egg Is Disabled",
                     Duration = 1 -- Set to nil to make the notification not disappear
                 }
+                end
+                if Auto_Roll_Egg_Notification == 0 then
+                Auto_Roll_Egg_Notification = Auto_Roll_Egg_Notification + 1
+                end
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("AutoRoll_Disable"):FireServer()
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("HiddenRoll_Disable"):FireServer()
             end
@@ -152,18 +166,19 @@ if game.PlaceId == 18901165922 then
     local Auto_Bonus_Collect = Auto_Farm_Section:AddToggle("MyToggle", 
     {
     Title = "Auto Bonus Roll Collect", 
-    Description = "Auto rolls the yellow coin",
+    Description = "Auto collects the bonus roll",
     Default = false
     })
     Auto_Bonus_Collect:OnChanged(function(Auto_Bonus_Collect_Check)
             Is_Auto_Bonus_Collect_Check=Auto_Bonus_Collect_Check
             while Is_Auto_Bonus_Collect_Check do
+                local Auto_Bonus_Collect_Timer = workspace.MAP.INTERACT.Machines.RetentionDice.Billboard.BillboardGui.Timer.Text
                 if Auto_Bonus_Collect_Timer == "CLAIM NOW!" then
-                    Auto_Bonus_Collect_Check = false
+                    Auto_Roll_Egg:SetValue(false)
                     game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Retention Dice: Claim"):FireServer()
                     game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Bonus Rolls: Claim"):InvokeServer()
                     game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Bonus Rolls: Reject"):FireServer()
-                    Auto_Bonus_Collect_Check = true
+                    Auto_Roll_Egg:SetValue(true)
                 end
                 task.wait(0.1)
             end
@@ -201,15 +216,21 @@ if game.PlaceId == 18901165922 then
                             task.wait(2)
                             end
                         end
+                        task.wait()
                     end
                     task.wait(1)
                 end
             else
+                if Auto_Breakables_Notification > 0 then
                 Fluent:Notify{
                     Title = "Looter Hub Notification",
                     Content = "Auto Breakables Is Disabled",
                     Duration = 0.1 -- Set to nil to make the notification not disappear
                 }
+            end
+            if Auto_Breakables_Notification == 0 then
+                Auto_Breakables_Notification = Auto_Breakables_Notification + 1
+            end
             end
     end)
 
@@ -257,12 +278,17 @@ if game.PlaceId == 18901165922 then
             else
                 if Orbs_Collector then
                     Orbs_Collector:Disconnect()  -- Stop listening for new orbs
-                 end
+                end
+                if Auto_Collect_Coins_Notification > 0 then
                 Fluent:Notify{
                     Title = "Looter Hub Notification",
                     Content = "Auto Roll Coins Is Disabled",
                     Duration = 0.5 -- Set to nil to make the notification not disappear
                 }
+                end
+                if Auto_Collect_Coins_Notification == 0 then
+                Auto_Collect_Coins_Notification = Auto_Collect_Coins_Notification + 1
+                end
             end
     end)
 
@@ -273,31 +299,38 @@ if game.PlaceId == 18901165922 then
     Default = false
     })
     Auto_Collect_Fruits:OnChanged(function(Auto_Collect_Fruits_Check)
-            Is_Auto_Collect_Fruits_Check=Auto_Collect_Fruits_Check
-            if Is_Auto_Collect_Fruits_Check then
-                Fluent:Notify{
-                    Title = "Looter Hub Notification",
-                    Content = "Auto Collect Fruits Is Enabled",
-                    Duration = 0.5 -- Set to nil to make the notification not disappear
-                }
-                while Is_Auto_Collect_Fruits_Check do
-                    for _, object in pairs(workspace.__THINGS.Breakables:GetChildren()) do
-                        if object:FindFirstChild("base") then
-                            local partNameAsNumber = tonumber(object.Name)
-                            local hitbox = workspace.__THINGS.Breakables[partNameAsNumber].base.Hitbox
+        Is_Auto_Collect_Fruits_Check=Auto_Collect_Fruits_Check
+        if Is_Auto_Collect_Fruits_Check then
+            Fluent:Notify{
+                Title = "Looter Hub Notification",
+                Content = "Auto Collect Fruits Is Enabled",
+                Duration = 0.5 -- Set to nil to make the notification not disappear
+            }
+            while Is_Auto_Collect_Fruits_Check do
+                for _, object in ipairs(workspace.__THINGS.Breakables:GetChildren()) do
+                    local basePart = object:FindFirstChild("base")
+                    if basePart then
+                        local hitbox = basePart:FindFirstChild("Hitbox")
+                        if hitbox and hitbox:IsA("BasePart") then
                             firetouchinterest(Humanoid_Root_Part, hitbox, 0)
                             firetouchinterest(Humanoid_Root_Part, hitbox, 1)
                         end
-                        task.wait(0.1)
                     end
+                    task.wait(0.1)
                 end
-            else
-                Fluent:Notify{
-                    Title = "Looter Hub Notification",
-                    Content = "Auto Collect Fruits Is Disabled",
-                    Duration = 0.5 -- Set to nil to make the notification not disappear
-                }
             end
+        else
+            if Auto_Collect_Fruits_Notification > 0 then
+            Fluent:Notify{
+                Title = "Looter Hub Notification",
+                Content = "Auto Collect Fruits Is Disabled",
+                Duration = 0.5 -- Set to nil to make the notification not disappear
+            }
+            end
+            if Auto_Collect_Fruits_Notification == 0 then
+            Auto_Collect_Fruits_Notification = Auto_Collect_Fruits_Notification + 1
+            end
+        end
     end)
 
     local Auto_Collect_Flying_Gifts = Auto_Farm_Section:AddToggle("MyToggle", 
@@ -372,6 +405,7 @@ if game.PlaceId == 18901165922 then
             Auto_Thieving_Selected[#Auto_Thieving_Selected + 1] = Value
         end
     end)
+
     local Auto_Thieving = Auto_Farm_Section:AddToggle("MyToggle", 
     {
     Title = "Auto Thieving", 
@@ -391,11 +425,16 @@ if game.PlaceId == 18901165922 then
                 task.wait()
             end
         else
+            if Auto_Thieving_Notification > 0 then
             Fluent:Notify{
                 Title = "Looter Hub Notification",
                 Content = "Auto Thieving Is Disabled",
                 Duration = 1 -- Set to nil to make the notification not disappear
-            }
+            }    
+            end
+            if Auto_Thieving_Notification == 0 then
+            Auto_Thieving_Notification = Auto_Thieving_Notification + 1
+            end
         end
     end)
 
@@ -481,16 +520,21 @@ if game.PlaceId == 18901165922 then
                 Content = "Auto Mine Is Enabled",
                 Duration = 1 -- Set to nil to make the notification not disappear
             }
+            while Is_Auto_Mine_Check do 
+                Auto_Mine_Calling:Auto_Mine_Selected_Ores(Auto_Mine_Selected)
+                task.wait()
+            end
         else
+            if Auto_Mine_Notification > 0 then
             Fluent:Notify{
                 Title = "Looter Hub Notification",
                 Content = "Auto Mine Is Disabled",
                 Duration = 1 -- Set to nil to make the notification not disappear
             }
-        end
-        while Is_Auto_Mine_Check do 
-            Auto_Mine_Calling:Auto_Mine_Selected_Ores(Auto_Mine_Selected)
-            task.wait()
+            end
+            if Auto_Mine_Notification == 0 then
+            Auto_Mine_Notification = Auto_Mine_Notification + 1
+            end
         end
     end)
 
@@ -522,11 +566,17 @@ if game.PlaceId == 18901165922 then
                 task.wait()
             end
         else
+            if Auto_Fish_Notification > 0 then
             Fluent:Notify{
                 Title = "Looter Hub Notification",
                 Content = "Auto Fish Is Disabled",
                 Duration = 1 -- Set to nil to make the notification not disappear
             }
+            
+            end
+            if Auto_Fish_Notification == 0 then
+            Auto_Fish_Notification = Auto_Fish_Notification + 1
+            end
         end
     end)
 
@@ -642,11 +692,17 @@ if game.PlaceId == 18901165922 then
                 task.wait()
             end
         else
+            if Auto_Ice_Fish_Notification > 0 then
             Fluent:Notify{
                 Title = "Looter Hub Notification",
                 Content = "Auto Ice Fish Is Disabled",
                 Duration = 1 -- Set to nil to make the notification not disappear
             }
+            
+            end
+            if Auto_Ice_Fish_Notification == 0 then
+            Auto_Ice_Fish_Notification = Auto_Ice_Fish_Notification + 1
+            end
         end
     end)
 
@@ -699,11 +755,17 @@ if game.PlaceId == 18901165922 then
                 task.wait()
             end
         else
+            if Auto_Corrupted_Fish_Notification > 0 then
             Fluent:Notify{
                 Title = "Looter Hub Notification",
                 Content = "Auto Corrupted Fish Is Disabled",
                 Duration = 0.5 -- Set to nil to make the notification not disappear
             }
+            
+            end
+            if Auto_Corrupted_Fish_Notification == 0 then
+            Auto_Corrupted_Fish_Notification = Auto_Corrupted_Fish_Notification + 1
+            end
         end
     end)
 
