@@ -69,17 +69,23 @@ if game.PlaceId == 18901165922 then
     local Is_Auto_Upgrade_Fishing_Check = false
     local Is_Auto_Upgrade_Ice_Fishing_Check = false
     local Is_Auto_Upgrade_Boat_Fishing_Check = false
+    local Is_Auto_Portions_Vendng_Machine_Check = false
+
+    --Function disconnectors
     local Orbs_Collector
+
     --Get Services
     local Players = game:GetService("Players")
     local Replicated_Storage = game:GetService("ReplicatedStorage")
     local Player_Character = Players.LocalPlayer.Character
     local Humanoid_Root_Part = Player_Character:WaitForChild("HumanoidRootPart")
     local Character_Humanoid = Player_Character:WaitForChild("Humanoid")
+
     -- Get folders
     local OrbsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Orbs")
     local Flying_Gifts = workspace.__THINGS:WaitForChild("FlyingGifts")
     local Hidden_Gifts = workspace.__THINGS:WaitForChild("HiddenGifts")
+    
     -- Notifications controlers
     local Auto_Roll_Egg_Notification = 0
     local Auto_Breakables_Notification = 0
@@ -94,8 +100,12 @@ if game.PlaceId == 18901165922 then
 
     local Tabs = {
         Main = Window:AddTab{
-            Title = "Main",
-            Icon = "house"
+            Title = "Info",
+            Icon = "info"
+        },
+        Auto_Farm = Window:AddTab{
+            Title = "Auto Farm",
+            Icon = "recycle"
         },
         Auto_Event = Window:AddTab{
             Title = "Event",
@@ -103,10 +113,14 @@ if game.PlaceId == 18901165922 then
         },
         Auto_Upgrade = Window:AddTab{
             Title = "Auto Upgrade",
-            Icon = "square-arrow-up"
+            Icon = "arrow-big-up"
         },
         Items = Window:AddTab{
             Title = "Items",
+            Icon = "shopping-bag"
+        },
+        Shop = Window:AddTab{
+            Title = "Shops",
             Icon = "shopping-cart"
         },
         Miscellaneous = Window:AddTab{
@@ -120,12 +134,29 @@ if game.PlaceId == 18901165922 then
     }
     Window:SelectTab(1)
 
+    Tabs.Main:AddParagraph({
+        Title = "Welcome To Radiant Hub",
+        Content = "Please Join The Official Discord For fixing Any Issue Or Suggesting Any New Feature :)"
+    })
+
+    Tabs.Main:AddParagraph({
+        Title = "https://discord.gg/fqstNbDk",
+        Content = "Use this to join the Oficial Discord"
+    })
+
+    local Credits_Section = Tabs.Main:AddSection("Credits :")
+    Credits_Section:AddParagraph({
+        Title = "IhvCutegirl",
+        Content = "The Owner Of The Script"
+    })
+
+
     -- auto farm section
-    local Auto_Farm_Section = Tabs.Main:AddSection("Auto Farm")
+    local Auto_Farm_Section = Tabs.Auto_Farm:AddSection("Auto Farm")
 
     Auto_Farm_Section:AddParagraph({
         Title = "Auto Farm Warning",
-        Content = "Please Join The Official Discord For fixing Any Issue Or Suggesting Any New Feature :)"
+        Content = "Make sure to use the auto farm features only after you have unlocked the respective upgrades"
     })
     local Auto_Roll_Egg = Auto_Farm_Section:AddToggle("MyToggle", 
     {
@@ -160,27 +191,6 @@ if game.PlaceId == 18901165922 then
                 end
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("AutoRoll_Disable"):FireServer()
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("HiddenRoll_Disable"):FireServer()
-            end
-    end)
-
-    local Auto_Bonus_Collect = Auto_Farm_Section:AddToggle("MyToggle", 
-    {
-    Title = "Auto Bonus Roll Collect", 
-    Description = "Auto collects the bonus roll",
-    Default = false
-    })
-    Auto_Bonus_Collect:OnChanged(function(Auto_Bonus_Collect_Check)
-            Is_Auto_Bonus_Collect_Check=Auto_Bonus_Collect_Check
-            while Is_Auto_Bonus_Collect_Check do
-                local Auto_Bonus_Collect_Timer = workspace.MAP.INTERACT.Machines.RetentionDice.Billboard.BillboardGui.Timer.Text
-                if Auto_Bonus_Collect_Timer == "CLAIM NOW!" then
-                    Auto_Roll_Egg:SetValue(false)
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Retention Dice: Claim"):FireServer()
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Bonus Rolls: Claim"):InvokeServer()
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Bonus Rolls: Reject"):FireServer()
-                    Auto_Roll_Egg:SetValue(true)
-                end
-                task.wait(0.1)
             end
     end)
 
@@ -438,7 +448,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Mining = Tabs.Main:AddSection("Mining")
+    local Mining = Tabs.Auto_Farm:AddSection("Mining")
     Mining:AddParagraph({
         Title = "Use Only After Mining Upgrade Has Been Unlocked!!!"
     })
@@ -538,7 +548,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Fishing = Tabs.Main:AddSection("Fishing")
+    local Fishing = Tabs.Auto_Farm:AddSection("Fishing")
 
     Fishing:AddParagraph({
         Title = "Use Only After Fishing Upgrade Has Been Unlocked!!!",
@@ -973,6 +983,50 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
+    --shop section
+    local Vending_Machines = Tabs.Shop:AddSection("Vending Machines")
+
+    local Auto_Portions_Vendng_Machine = Vending_Machines:AddToggle("MyToggle", 
+    {
+    Title = "Auto Buy from Portions Vending Machine", 
+    Description = "",
+    Default = false
+    })
+    Auto_Portions_Vendng_Machine:OnChanged(function(Auto_Portions_Vendng_Machine_Check)
+        Is_Auto_Portions_Vendng_Machine_Check=Auto_Portions_Vendng_Machine_Check
+        while Is_Auto_Portions_Vendng_Machine_Check do
+            local args = {
+                [1] = "PotionVendingMachine"
+            }
+
+            game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("VendingMachines_Purchase"):InvokeServer(unpack(args))
+            task.wait(0.1)
+        end
+    end)
+
+    -- misc section
+    local Misc_Player = Tabs.Misc:AddSection("Player")
+
+    local Auto_Bonus_Collect = Misc_Player:AddToggle("MyToggle", 
+    {
+    Title = "Auto Bonus Roll Collect", 
+    Description = "Auto collects the bonus roll",
+    Default = false
+    })
+    Auto_Bonus_Collect:OnChanged(function(Auto_Bonus_Collect_Check)
+            Is_Auto_Bonus_Collect_Check=Auto_Bonus_Collect_Check
+            while Is_Auto_Bonus_Collect_Check do
+                local Auto_Bonus_Collect_Timer = workspace.MAP.INTERACT.Machines.RetentionDice.Billboard.BillboardGui.Timer.Text
+                if Auto_Bonus_Collect_Timer == "CLAIM NOW!" then
+                    Auto_Roll_Egg:SetValue(false)
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Retention Dice: Claim"):FireServer()
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Bonus Rolls: Claim"):InvokeServer()
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Bonus Rolls: Reject"):FireServer()
+                    Auto_Roll_Egg:SetValue(true)
+                end
+                task.wait(0.1)
+            end
+    end)
 
     --Hub loaded noti
     Fluent:Notify{
