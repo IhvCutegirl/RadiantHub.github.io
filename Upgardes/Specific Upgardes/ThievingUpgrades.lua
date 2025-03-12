@@ -16,18 +16,18 @@ local Thieving_Upgrades = {
     "Stall Respawn III",
     "Stall Respawn IV",
     "Stall Respawn V",
-    "Thieving Merchant",
-    "Thieving Merchant Quality I",
-    "Thieving Merchant Quality II",
-    "Thieving Merchant Quality III",
-    "Thieving Merchant Extra Slot I",
-    "Thieving Merchant Extra Slot II",
-    "Thieving Merchant Extra Slot III",
-    "Thieving Merchant Extra Slot IV",
-    "Thieving Merchant Extra Slot V",
-    "Thieving Merchant Restock Speed I",
-    "Thieving Merchant Restock Speed II",
-    "Thieving Merchant Restock Speed III",
+    "Black Market Merchant",
+    "Black Market Quality I",
+    "Black Market Quality II",
+    "Black Market Quality III",
+    "Black Market Extra Slot I",
+    "Black Market Extra Slot II",
+    "Black Market Extra Slot III",
+    "Black Market Extra Slot IV",
+    "Black Market Extra Slot V",
+    "Black Market Restock Speed I",
+    "Black Market Restock Speed II",
+    "Black Market Restock Speed III",
     "Titanic Vault",
     "Vault Luck I",
     "Vault Luck II",
@@ -64,8 +64,7 @@ local Thieving_Upgrades = {
 
 function Thieving_Upgrades_Module:Thieving_Upgrades_Specific()
     for _, upgrade in ipairs(Thieving_Upgrades) do
-        local args = 
-        {
+        local args = {
             [1] = upgrade
         }
         game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Upgrades_Purchase"):InvokeServer(unpack(args))
