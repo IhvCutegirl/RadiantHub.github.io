@@ -14,7 +14,6 @@ local Breakables_Upgrades =
     "Lucky Loot II",
     "Lucky Loot III",
     "Lucky Loot IV",
-    "Lucky Loot V",
     "???",
     "Loot Chest Coins",
     "Even More Chest Coins",
