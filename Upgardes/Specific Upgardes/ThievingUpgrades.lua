@@ -62,9 +62,10 @@ local Thieving_Upgrades = {
     "Huge Hacker Cat Odds V"
 }
 
-function Thieving_Upgrades_Module:Thieving_Upgrade_Specific()
+function Thieving_Upgrades_Module:Thieving_Upgrades_Specific()
     for _, upgrade in ipairs(Thieving_Upgrades) do
-        local args = {
+        local args = 
+        {
             [1] = upgrade
         }
         game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Upgrades_Purchase"):InvokeServer(unpack(args))
