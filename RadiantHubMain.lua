@@ -1,6 +1,6 @@
 -- game check
 if game.PlaceId == 18901165922 then 
-    local Current_Version = "V 0.7"
+    local Current_Version = "V 0.8"
 
     --calling the library
     local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
@@ -25,6 +25,7 @@ if game.PlaceId == 18901165922 then
     local Open_All_Portions_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Portions.lua"))()
     local Open_All_Fruits_Normal_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Fruits/Fruits_Normal.lua"))()
     local Open_All_Fruits_Shiny_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Fruits/Fruits_Shiny.lua"))()
+    local Auto_Upgrade_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/UpgardeAll.lua"))()
     local Auto_Upgrade_Mining_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/MiningUpgrades.lua"))()
     local Auto_Upgrade_Fishing_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/FishingUpgrades.lua"))()
     local Auto_Upgrade_Ice_Fishing_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/IceFishingUpgrades.lua"))()
@@ -32,10 +33,19 @@ if game.PlaceId == 18901165922 then
     local Open_All_Fishing_Chests_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Items/Fishing/FishingChests.lua"))()
     local Auto_Boating_Fish_Upgrades_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/Boat_Upgrades.lua"))()
     local Auto_Upgrade_Boat_Fishing_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/BoatFishingUpgrades.lua"))()
+    local Auto_Upgrade_Leveling_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/Leveling_Upgrades.lua"))()
+    local Auto_Upgrade_Luckier_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/LuckierUpgardes.lua"))()
+    local Auto_Upgrade_Weather_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/WeatherUpgrades.lua"))()
+    local Auto_Upgrade_Trading_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/TradingUpgrades.lua"))()
+    local Auto_Upgrade_Thieving_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/ThievingUpgrades.lua"))()
+    local Auto_Upgrade_Breakables_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/BreakablesUpgrades.lua"))()
+    local Auto_Upgrade_Boosts_Calling = loadstring(game:HttpGet("https://raw.githubusercontent.com/IhvCutegirl/RadiantHub.github.io/refs/heads/main/Upgardes/Specific%20Upgardes/BoostsUpgardes.lua"))()
 
     --Function Checkers
     local Auto_Mine_Selected = {}
     local Auto_Thieving_Selected = {}
+    --local ids = {}
+    --local amounts = {}
     --local Auto_Upgarde_Selected = {}
     local Is_Auto_Roll_Egg_Check = false
     local Is_Auto_Breakables_Check = false
@@ -64,11 +74,18 @@ if game.PlaceId == 18901165922 then
     local Is_Open_All_Fishing_Chests_Check = false
     local Is_Open_Frozen_Fishing_Chests_Check = false
     local Is_Use_All_Normal_Baits_Check = false
-    local Is_Auto_Upgrade_All_Check = false
+    local Is_Auto_Upgrade_Check = false
     local Is_Auto_Upgrade_Mining_Check = false
     local Is_Auto_Upgrade_Fishing_Check = false
     local Is_Auto_Upgrade_Ice_Fishing_Check = false
     local Is_Auto_Upgrade_Boat_Fishing_Check = false
+    local Is_Auto_Upgrade_Leveling_Check = false
+    local Is_Auto_Upgrade_Luckier_Check = false
+    local Is_Auto_Upgrade_Weather_Check = false
+    local Is_Auto_Upgrade_Trading_Check = false
+    local Is_Auto_Upgrade_Thieving_Check = false
+    local Is_Auto_Upgrade_Breakables_Check = false
+    local Is_Auto_Upgrade_Boosts_Check = false
     local Is_Auto_Portions_Vendng_Machine_Check = false
 
     --Function disconnectors
@@ -100,35 +117,39 @@ if game.PlaceId == 18901165922 then
 
     local Tabs = {
         Main = Window:AddTab{
-            Title = "Info",
+            Title = "| Info",
             Icon = "info"
         },
         Auto_Farm = Window:AddTab{
-            Title = "Auto Farm",
+            Title = "| Auto Farm",
             Icon = "recycle"
         },
+        --[[ Stats = Window:AddTab{
+            Title = "Stats",
+            Icon = "info"
+        }, --]]
         Auto_Event = Window:AddTab{
-            Title = "Event",
+            Title = "| Event",
             Icon = "calendar-check"
         },
         Auto_Upgrade = Window:AddTab{
-            Title = "Auto Upgrade",
+            Title = "| Auto Upgrade",
             Icon = "arrow-big-up"
         },
         Items = Window:AddTab{
-            Title = "Items",
+            Title = "| Items",
             Icon = "shopping-bag"
         },
         Shop = Window:AddTab{
-            Title = "Shops",
+            Title = "| Shops",
             Icon = "shopping-cart"
         },
         Miscellaneous = Window:AddTab{
-            Title = "Miscellaneous",
+            Title = "| Miscellaneous",
             Icon = "package-plus"
         },
         Settings = Window:AddTab{
-            Title = "Settings",
+            Title = "| Settings",
             Icon = "settings"
         }
     }
@@ -139,12 +160,16 @@ if game.PlaceId == 18901165922 then
         Content = "Please Join The Official Discord For fixing Any Issue Or Suggesting Any New Feature :)"
     })
 
-    Tabs.Main:AddParagraph({
-        Title = "https://discord.gg/fqstNbDk",
-        Content = "Use this to join the Oficial Discord"
-    })
+    Tabs.Main:AddButton{
+        Title = "Join Discord",
+        Description = "Use this to copy link to join the Oficial Discord",
+        Default = false,
+        Callback = function()
+            setclipboard("https://discord.gg/fqstNbDk") -- Copy the link to the clipboard
+        end
+    }
 
-    local Credits_Section = Tabs.Main:AddSection("Credits :")
+    local Credits_Section = Tabs.Main:AddSection("| Credits :")
     Credits_Section:AddParagraph({
         Title = "IhvCutegirl",
         Content = "The Owner Of The Script"
@@ -152,7 +177,7 @@ if game.PlaceId == 18901165922 then
 
 
     -- auto farm section
-    local Auto_Farm_Section = Tabs.Auto_Farm:AddSection("Auto Farm")
+    local Auto_Farm_Section = Tabs.Auto_Farm:AddSection("| Auto Farm")
 
     Auto_Farm_Section:AddParagraph({
         Title = "Auto Farm Warning",
@@ -448,7 +473,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Mining = Tabs.Auto_Farm:AddSection("Mining")
+    local Mining = Tabs.Auto_Farm:AddSection("| Mining")
     Mining:AddParagraph({
         Title = "Use Only After Mining Upgrade Has Been Unlocked!!!"
     })
@@ -548,7 +573,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Fishing = Tabs.Auto_Farm:AddSection("Fishing")
+    local Fishing = Tabs.Auto_Farm:AddSection("| Fishing")
 
     Fishing:AddParagraph({
         Title = "Use Only After Fishing Upgrade Has Been Unlocked!!!",
@@ -591,7 +616,7 @@ if game.PlaceId == 18901165922 then
     end)
 
     Fishing:AddParagraph({
-        Title = "███►─═ 🅱🅾🅰🆃 🆂🅴🅲🆃🅸🅾🅽 ═─◄███",
+        Title = "►─═ 🅱🅾🅰🆃 🆂🅴🅲🆃🅸🅾🅽 ═─◄",
     })
 
     local Auto_Boating_Fish = Fishing:AddToggle("MyToggle", 
@@ -651,7 +676,7 @@ if game.PlaceId == 18901165922 then
     end)
 
     Fishing:AddParagraph({
-        Title = "█████████►─══─◄█████████",
+        Title = "►─══─◄",
     })
 
     Fishing:AddParagraph({
@@ -779,14 +804,64 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
+    --Stats Section
+    --[[local Boat_Fishing_Loot_Stats = Tabs.Stats:AddSection("| Boat Fishing Loot")
+
+    while true do
+        local myTable = game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_GetFishermanContents"):InvokeServer()
+        local stack = { myTable }
+        while #stack > 0 do
+        local t = table.remove(stack)  -- Remove the last element from the stack.
+    
+        if type(t) == "table" then
+        -- If this table has both "id" and "_am", add them to our lists.
+            if t.id ~= nil and t._am ~= nil then
+                table.insert(ids, t.id)
+                table.insert(amounts, t._am)
+            end
+
+        -- Loop through all values in this table.
+            for _, value in pairs(t) do
+                if type(value) == "table" then
+                    table.insert(stack, value)
+                end
+            end
+        end
+    end
+    for i = 1, #ids do
+    local itemData = { id = ids[i], amount = amounts[i] }
+        for key, value in pairs(itemData) do
+            Boat_Fishing_Loot_Stats:AddParagraph({
+        Title = "Stats",
+        Content = "  " .. key .. ": " .. tostring(value)
+    })
+        end
+    end
+    task.wait(2)
+    end --]]
+
     --Upgrade Section
-    local Auto_Upgrade_All = Tabs.Auto_Upgrade:AddSection("Auto Upgrade All")
+    local Auto_Upgrade_All = Tabs.Auto_Upgrade:AddSection("| Auto Upgrade All")
 
     Auto_Upgrade_All:AddParagraph({
         Title = "Use This Or Upgarde Specific, Dont Use Both At The Same Time!!!",
     })
 
-    local Auto_Upgrade_Specific = Tabs.Auto_Upgrade:AddSection("Auto Upgrade Specific")
+    local Auto_Upgrade = Auto_Upgrade_All:AddToggle("MyToggle", 
+    {
+    Title = "Auto Upgrade All", 
+    Description = "Use it for upgrading all upgrades at once!!",
+    Default = false
+    })
+    Auto_Upgrade:OnChanged(function(Auto_Upgrade_Check)
+        Is_Auto_Upgrade_Check=Auto_Upgrade_Check
+        while Is_Auto_Upgrade_Check do
+            Auto_Upgrade_Calling:Auto_Upgrade_All()
+            task.wait()
+        end
+    end)
+
+    local Auto_Upgrade_Specific = Tabs.Auto_Upgrade:AddSection("| Auto Upgrade Specific")
 
     Auto_Upgrade_Specific:AddParagraph({
         Title = "Use This Or Upgarde All, Dont Use Both At The Same Time!!!",
@@ -848,9 +923,107 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
+    local Auto_Upgrade_Leveling = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    {
+    Title = "Auto Leveling Upgrades", 
+    Description = "Use it for only Leveling section upgrades!!",
+    Default = false
+    })
+    Auto_Upgrade_Leveling:OnChanged(function(Auto_Upgrade_Leveling_Check)
+        Is_Auto_Upgrade_Leveling_Check=Auto_Upgrade_Leveling_Check
+        while Is_Auto_Upgrade_Leveling_Check do
+            Auto_Upgrade_Leveling_Calling:Leveling_Upgrades_Specific()
+            task.wait()
+        end
+    end)
+
+    local Auto_Upgrade_Trading = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    {
+    Title = "Auto Trading Upgrades", 
+    Description = "Use it for only Trading upgrades!!",
+    Default = false
+    })
+    Auto_Upgrade_Trading:OnChanged(function(Auto_Upgrade_Trading_Check)
+        Is_Auto_Upgrade_Trading_Check=Auto_Upgrade_Trading_Check
+        while Is_Auto_Upgrade_Trading_Check do
+            Auto_Upgrade_Trading_Calling:Trading_Upgrades_Specific()
+            task.wait()
+        end
+    end)
+
+    local Auto_Upgrade_Weather = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    {
+    Title = "Auto Weather Upgrades", 
+    Description = "Use it for only Weather upgrades!!",
+    Default = false
+    })
+    Auto_Upgrade_Weather:OnChanged(function(Auto_Upgrade_Weather_Check)
+        Is_Auto_Upgrade_Weather_Check=Auto_Upgrade_Weather_Check
+        while Is_Auto_Upgrade_Weather_Check do
+            Auto_Upgrade_Weather_Calling:Weather_Upgrades_Specific()
+            task.wait()
+        end
+    end)
+
+    local Auto_Upgrade_Luckier = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    {
+    Title = "Auto Luckier Upgrades", 
+    Description = "Use it for only Luckier section upgrades!!",
+    Default = false
+    })
+    Auto_Upgrade_Luckier:OnChanged(function(Auto_Upgrade_Luckier_Check)
+        Is_Auto_Upgrade_Luckier_Check=Auto_Upgrade_Luckier_Check
+        while Is_Auto_Upgrade_Luckier_Check do
+            Auto_Upgrade_Luckier_Calling:Luckier_Upgrades_Specific()
+            task.wait()
+        end
+    end)
+
+    local Auto_Upgrade_Thieving = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    {
+    Title = "Auto Thieving Upgrades", 
+    Description = "Use it for only Thieving section upgrades!!",
+    Default = false
+    })
+    Auto_Upgrade_Thieving:OnChanged(function(Auto_Upgrade_Thieving_Check)
+        Is_Auto_Upgrade_Thieving_Check=Auto_Upgrade_Thieving_Check
+        while Is_Auto_Upgrade_Thieving_Check do
+            Auto_Upgrade_Thieving_Calling:Thieving_Upgrades_Specific()
+            task.wait()
+        end
+    end)
+
+    local Auto_Upgrade_Breakables = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    {
+    Title = "Auto Breakables Upgrades", 
+    Description = "Use it for only Breakables section upgrades!!",
+    Default = false
+    })
+    Auto_Upgrade_Breakables:OnChanged(function(Auto_Upgrade_Breakables_Check)
+        Is_Auto_Upgrade_Breakables_Check=Auto_Upgrade_Breakables_Check
+        while Is_Auto_Upgrade_Breakables_Check do
+            Auto_Upgrade_Breakables_Calling:Breakables_Upgrades_Specific()
+            task.wait()
+        end
+    end)
+
+    local Auto_Upgrade_Boosts = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    {
+    Title = "Auto Boosts Upgrades", 
+    Description = "Use it for only Boosts section upgrades!!",
+    Default = false
+    })
+    Auto_Upgrade_Boosts:OnChanged(function(Auto_Upgrade_Boosts_Check)
+        Is_Auto_Upgrade_Boosts_Check=Auto_Upgrade_Boosts_Check
+        while Is_Auto_Upgrade_Boosts_Check do
+            Auto_Upgrade_Boosts_Calling:Boosts_Upgrades_Specific()
+            task.wait()
+        end
+    end)
+
 
     -- Items Section
-    local Lootboxes = Tabs.Items:AddSection("Lootboxes")
+    local Lootboxes = Tabs.Items:AddSection("| Lootboxes")
     
     local Open_Bundle_O_Scrolls = Lootboxes:AddToggle("MyToggle", 
     {
@@ -888,7 +1061,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Portions = Tabs.Items:AddSection("Portions")
+    local Portions = Tabs.Items:AddSection("| Portions")
 
     local Open_All_Portions = Portions:AddToggle("MyToggle", 
     {
@@ -904,7 +1077,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Fruits = Tabs.Items:AddSection("Fruits")
+    local Fruits = Tabs.Items:AddSection("| Fruits")
 
     local Open_All_Fruits_Normal = Fruits:AddToggle("MyToggle", 
     {
@@ -934,7 +1107,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Fishing_Items = Tabs.Items:AddSection("Baits")
+    local Fishing_Items = Tabs.Items:AddSection("| Baits")
 
     local Open_All_Fishing_Chests = Fishing_Items:AddToggle("MyToggle", 
     {
@@ -984,7 +1157,7 @@ if game.PlaceId == 18901165922 then
     end)
 
     --shop section
-    local Vending_Machines = Tabs.Shop:AddSection("Vending Machines")
+    local Vending_Machines = Tabs.Shop:AddSection("| Vending Machines")
 
     local Auto_Portions_Vendng_Machine = Vending_Machines:AddToggle("MyToggle", 
     {
@@ -1005,9 +1178,9 @@ if game.PlaceId == 18901165922 then
     end)
 
     -- misc section
-    local Misc_Player = Tabs.Misc:AddSection("Player")
+    local Miscellaneous_Player = Tabs.Miscellaneous:AddSection("| Player")
 
-    local Auto_Bonus_Collect = Misc_Player:AddToggle("MyToggle", 
+    local Auto_Bonus_Collect = Miscellaneous_Player:AddToggle("MyToggle", 
     {
     Title = "Auto Bonus Roll Collect", 
     Description = "Auto collects the bonus roll",
