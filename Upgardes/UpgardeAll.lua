@@ -1,11 +1,22 @@
-local Upgrade = {}
+local Upgrades_Module = {}
 
-function Upgrade:Auto_Upgrade_All()
+local Upgrades_Folder = game:GetService("ReplicatedStorage").__DIRECTORY.Upgrades
+local Upgrades = {}
+
+function Upgrades_Module:Auto_Upgrade_All()
+    for _, descendant in ipairs(Upgrades_Folder:GetDescendants()) do
+        if descendant:IsA("LuaSourceContainer") then
+            table.insert(Upgrades, descendant.Name)
+        end
+    end
+task.wait(1)
+    for _, upgrade in ipairs(Upgrades) do
         local args = {
-            [1] = "Thieving" -- chnage to whatever upgrade needed
+            [1] = upgrade
         }
         game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Upgrades_Purchase"):InvokeServer(unpack(args))
         task.wait()
+    end
 end
 
-return Upgrade
+return Upgrades_Module
