@@ -430,7 +430,7 @@ if game.PlaceId == 18901165922 then
     local Auto_Thieving_Select = Auto_Farm_Section:AddDropdown("MultiDropdown", {
         Title = "Select Which Stall To Thieve",
         Description = "Select which stall you want to thieve",
-        Values = {"Wood", "Blue", "Black", "Marble", "Steam Punk", "Tech", "Royal", "Purple Castle"},
+        Values = {"Wood", "Blue", "Black", "Marble", "Steam Punk", "Tech", "Royal", "Purple Castle","Hacker Stall"},
         Multi = true,
         Default = {},
     })
