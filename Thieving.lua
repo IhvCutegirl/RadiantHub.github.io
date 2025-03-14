@@ -54,6 +54,12 @@ function Thieving:Auto_Thieving_Selected_Function(Passed_Auto_Thieving_Selected)
             character.HumanoidRootPart.CFrame = CFrame.new(350,19,37)
             task.wait(2)
         end
+
+        if lockpick == "Hacker Stall" then
+            humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            character.HumanoidRootPart.CFrame = CFrame.new(303,22,62)
+            task.wait(2)
+        end
     end
 end
 
