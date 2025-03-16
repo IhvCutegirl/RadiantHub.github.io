@@ -6,7 +6,8 @@ local Boat_Pads={"Boat_2_Pad_1","Boat_2_Pad_2","Boat_3_Pad_1","Boat_3_Pad_2","Bo
 function Boat_Upgrades_Module:Boat_Upgrades_Specific()
     for _, value in ipairs(Boats) do
         local args = {
-            [1] = value -- UPGARDE BOAT
+            [1] = value, -- UPGARDE BOAT
+            [2] = "Boating"
         }
         game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
         task.wait()
@@ -14,7 +15,8 @@ function Boat_Upgrades_Module:Boat_Upgrades_Specific()
 
     for _, value in ipairs(Boat_Pads) do
         local args = {
-            [1] = value -- boat slaves upgrades
+            [1] = value,
+            [2] = "Boating" -- boat slaves upgrades
         }
         game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
         task.wait()
