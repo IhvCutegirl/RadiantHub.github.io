@@ -46,10 +46,8 @@ if game.PlaceId == 18901165922 then
     --Function Checkers
     local Auto_Mine_Selected = {}
     local Auto_Thieving_Selected = {}
-    local Clover_Areas = {"Patch_1","Patch_2","Patch_3","Patch_4","Patch_5","Patch_6","Patch_7","Patch_8"}
-    local Clover_Collector = {"Patch_1_Farmer","Patch_2_Farmer","Patch_3_Farmer","Patch_4_Farmer","Patch_5_Farmer","Patch_6_Farmer","Patch_7_Farmer","Patch_8_Farmer"}
-    local Clover_Area_Speeds = {"Patch_1_Speed1","Patch_1_Speed2","Patch_1_Speed3","Patch_2_Speed1","Patch_2_Speed2","Patch_2_Speed3","Patch_3_Speed1","Patch_3_Speed2","Patch_3_Speed3","Patch_4_Speed1","Patch_4_Speed2","Patch_4_Speed3","Patch_5_Speed1","Patch_5_Speed2","Patch_5_Speed3","Patch_6_Speed1","Patch_6_Speed2","Patch_6_Speed3","Patch_7_Speed1","Patch_7_Speed2","Patch_7_Speed3","Patch_8_Speed1","Patch_8_Speed2","Patch_8_Speed3"}
-    local Clover_Area_Quality = {"Patch_1_Quality1","Patch_1_Quality2","Patch_1_Quality3","Patch_2_Quality1","Patch_2_Quality2","Patch_2_Quality3","Patch_3_Quality1","Patch_3_Quality2","Patch_3_Quality3","Patch_4_Quality1","Patch_4_Quality2","Patch_4_Quality3","Patch_5_Quality1","Patch_5_Quality2","Patch_5_Quality3","Patch_6_Quality1","Patch_6_Quality2","Patch_6_Quality3","Patch_7_Quality1","Patch_7_Quality2","Patch_7_Quality3","Patch_8_Quality1","Patch_8_Quality2","Patch_8_Quality3"}
+    local Auto_Merchants_Selected = {}
+    local Merchant_Item_Selected = {}
     --local ids = {}
     --local amounts = {}
     --local Auto_Upgarde_Selected = {}
@@ -93,23 +91,36 @@ if game.PlaceId == 18901165922 then
     local Is_Auto_Upgrade_Breakables_Check = false
     local Is_Auto_Upgrade_Boosts_Check = false
     local Is_Auto_Portions_Vendng_Machine_Check = false
+    local Is_Auto_Merchant_Check = false
 
     --event
+    local Clover_Areas = {"Patch_1","Patch_2","Patch_3","Patch_4","Patch_5","Patch_6","Patch_7","Patch_8"}
+    local Clover_Collector = {"Patch_1_Farmer","Patch_2_Farmer","Patch_3_Farmer","Patch_4_Farmer","Patch_5_Farmer","Patch_6_Farmer","Patch_7_Farmer","Patch_8_Farmer"}
+    local Clover_Area_Speeds = {"Patch_1_Speed1","Patch_1_Speed2","Patch_1_Speed3","Patch_2_Speed1","Patch_2_Speed2","Patch_2_Speed3","Patch_3_Speed1","Patch_3_Speed2","Patch_3_Speed3","Patch_4_Speed1","Patch_4_Speed2","Patch_4_Speed3","Patch_5_Speed1","Patch_5_Speed2","Patch_5_Speed3","Patch_6_Speed1","Patch_6_Speed2","Patch_6_Speed3","Patch_7_Speed1","Patch_7_Speed2","Patch_7_Speed3","Patch_8_Speed1","Patch_8_Speed2","Patch_8_Speed3"}
+    local Clover_Area_Quality = {"Patch_1_Quality1","Patch_1_Quality2","Patch_1_Quality3","Patch_2_Quality1","Patch_2_Quality2","Patch_2_Quality3","Patch_3_Quality1","Patch_3_Quality2","Patch_3_Quality3","Patch_4_Quality1","Patch_4_Quality2","Patch_4_Quality3","Patch_5_Quality1","Patch_5_Quality2","Patch_5_Quality3","Patch_6_Quality1","Patch_6_Quality2","Patch_6_Quality3","Patch_7_Quality1","Patch_7_Quality2","Patch_7_Quality3","Patch_8_Quality1","Patch_8_Quality2","Patch_8_Quality3"}
     local Is_Auto_Clover_Pot_Check = false
+    local Auto_Clover_Pot_Notification = 0
     local Is_Clover_Area_Quality_Check = false
+    local Auto_Clover_Area_Quality_Notification = 0
     local Is_Clover_Area_Speed_Check = false
+    local Auto_Clover_Area_Speed_Notification = 0
     local Is_Auto_Clover_Farmer_Check = false
+    local Auto_Clover_Farmer_Notification = 0
     local Is_Auto_Clover_Area_Check = false
+    local Auto_Clover_Area_Notification = 0
     local Is_Auto_Clover_Collect_Check = false
+    local Auto_Clover_Collect_Notification = 0
     local runningTask1 = true
     local runningTask2 = true
     local runningTask3 = true
     local runningTask4 = true
-    local num1 = 5 
+    local num1 = 5
     local num2 = 10
     local num3 = 15
     local Is_Auto_Clover_Storage_Collect_Check = false
+    local Auto_Clover_Storage_Collect_Notification = 0
     local Is_Auto_Clover_Upgrade_Check = false
+    local Auto_Clover_Upgrade_Notification = 0
     local Clover_Upgrades_Folder = game:GetService("ReplicatedStorage").__DIRECTORY.Upgrades.Root["St Patrick\226\128\153s Event"]
     local Clover_Upgrades = {}
     local Clover_Upgrades_Counter = 0
@@ -134,11 +145,24 @@ if game.PlaceId == 18901165922 then
     local Auto_Breakables_Notification = 0
     local Auto_Collect_Coins_Notification = 0
     local Auto_Collect_Fruits_Notification = 0
+    local Auto_Collect_Flying_Gifts_Notification = 0
+    local Auto_Collect_Hidden_Gifts_Notification = 0
     local Auto_Mine_Notification = 0
+    local Auto_Magma_Scroll_Notification = 0
     local Auto_Fish_Notification = 0
+    local Auto_Boating_Fish_Notification = 0
+    local Auto_Boating_Fish_Upgrades_Notification = 0
+    local Auto_Kraken_Fish_Notification = 0
+    local Auto_Ice_Bait_Notification = 0
+    local Auto_Corrupted_Bait_Notification = 0
     local Auto_Thieving_Notification = 0
     local Auto_Ice_Fish_Notification = 0
     local Auto_Corrupted_Fish_Notification = 0
+    local Auto_Upgrade_Notification = 0
+    local Auto_Portions_Vendng_Machine_Notification = 0
+    local Auto_Merchant_Notification = 0
+    local Auto_Bonus_Collect_Notification = 0
+
 
 
     local Tabs = {
@@ -209,7 +233,7 @@ if game.PlaceId == 18901165922 then
         Title = "Auto Farm Warning",
         Content = "Make sure to use the auto farm features only after you have unlocked the respective upgrades"
     })
-    local Auto_Roll_Egg = Auto_Farm_Section:AddToggle("MyToggle", 
+    local Auto_Roll_Egg = Auto_Farm_Section:AddToggle("Auto_Roll_Egg", 
     {
     Title = "Auto Roll Egg", 
     Description = "Auto rolls the egg",
@@ -218,11 +242,16 @@ if game.PlaceId == 18901165922 then
     Auto_Roll_Egg:OnChanged(function(Auto_Roll_Egg_Check)
             Is_Auto_Roll_Egg_Check=Auto_Roll_Egg_Check
             if Is_Auto_Roll_Egg_Check then
+                if Auto_Roll_Egg_Notification > 1 then
                 Fluent:Notify{
-                    Title = "Looter Hub Notification",
+                    Title = "Radiant Hub Notification",
                     Content = "Auto Roll Egg Is Enabled",
                     Duration = 1 -- Set to nil to make the notification not disappear
                 }
+                end
+                if Auto_Roll_Egg_Notification == 1 then
+                    Auto_Roll_Egg_Notification = Auto_Roll_Egg_Notification + 1
+                end
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("AutoRoll_Enable"):FireServer()
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("HiddenRoll_Enable"):FireServer()
                 while Is_Auto_Roll_Egg_Check do
@@ -231,21 +260,21 @@ if game.PlaceId == 18901165922 then
                 end
             else
                 if Auto_Roll_Egg_Notification > 0 then
-                Fluent:Notify{
-                    Title = "Looter Hub Notification",
-                    Content = "Auto Roll Egg Is Disabled",
-                    Duration = 1 -- Set to nil to make the notification not disappear
-                }
+                    Fluent:Notify{
+                        Title = "Radiant Hub Notification",
+                        Content = "Auto Roll Egg Is Disabled",
+                        Duration = 1 -- Set to nil to make the notification not disappear
+                    }
                 end
                 if Auto_Roll_Egg_Notification == 0 then
-                Auto_Roll_Egg_Notification = Auto_Roll_Egg_Notification + 1
+                    Auto_Roll_Egg_Notification = Auto_Roll_Egg_Notification + 1
                 end
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("AutoRoll_Disable"):FireServer()
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("HiddenRoll_Disable"):FireServer()
             end
     end)
 
-    local Auto_Breakables = Auto_Farm_Section:AddToggle("MyToggle", 
+    local Auto_Breakables = Auto_Farm_Section:AddToggle("Auto_Breakables", 
     {
     Title = "Auto Breakables", 
     Description = "Auto Breaks Breakables",
@@ -254,11 +283,16 @@ if game.PlaceId == 18901165922 then
     Auto_Breakables:OnChanged(function(Auto_Breakables_Check)
             Is_Auto_Breakables_Check=Auto_Breakables_Check
             if Is_Auto_Breakables_Check then
-                Fluent:Notify{
-                    Title = "Looter Hub Notification",
-                    Content = "Auto Breakables Is Enabled",
-                    Duration = 0.1 -- Set to nil to make the notification not disappear
-                }
+                if Auto_Breakables_Notification > 1 then
+                    Fluent:Notify{
+                        Title = "Radiant Hub Notification",
+                        Content = "Auto Breakables Is Enabled",
+                        Duration = 1 -- Set to nil to make the notification not disappear
+                    }
+                end
+                if Auto_Breakables_Notification == 1 then
+                    Auto_Breakables_Notification = Auto_Breakables_Notification + 1
+                end
                 while Is_Auto_Breakables_Check do
                     for _, object in pairs(workspace.__THINGS.Breakables:GetChildren()) do
                         if object:FindFirstChild("1") or object:FindFirstChild("Bottom") or object:FindFirstChild("2") then
@@ -283,19 +317,19 @@ if game.PlaceId == 18901165922 then
                 end
             else
                 if Auto_Breakables_Notification > 0 then
-                Fluent:Notify{
-                    Title = "Looter Hub Notification",
-                    Content = "Auto Breakables Is Disabled",
-                    Duration = 0.1 -- Set to nil to make the notification not disappear
-                }
-            end
-            if Auto_Breakables_Notification == 0 then
-                Auto_Breakables_Notification = Auto_Breakables_Notification + 1
-            end
+                    Fluent:Notify{
+                        Title = "Radiant Hub Notification",
+                        Content = "Auto Breakables Is Disabled",
+                        Duration = 1 -- Set to nil to make the notification not disappear
+                    }
+                end
+                if Auto_Breakables_Notification == 0 then
+                    Auto_Breakables_Notification = Auto_Breakables_Notification + 1
+                end
             end
     end)
 
-    local Auto_Collect_Coins = Auto_Farm_Section:AddToggle("MyToggle", 
+    local Auto_Collect_Coins = Auto_Farm_Section:AddToggle("Auto_Collect_Coins", 
     {
     Title = "Auto Collect Coins", 
     Description = "Auto Collects Coins",
@@ -304,11 +338,16 @@ if game.PlaceId == 18901165922 then
     Auto_Collect_Coins:OnChanged(function(Auto_Collect_Coins_Check)
             Is_Auto_Collect_Coins_Check=Auto_Collect_Coins_Check
             if Is_Auto_Collect_Coins_Check then
-                Fluent:Notify{
-                    Title = "Looter Hub Notification",
-                    Content = "Auto Collect Coins Is Enabled",
-                    Duration = 0.5 -- Set to nil to make the notification not disappear
-                }
+                if Auto_Collect_Coins_Notification > 1 then
+                    Fluent:Notify{
+                        Title = "Radiant Hub Notification",
+                        Content = "Auto Collect Coins Is Enabled",
+                        Duration = 1 -- Set to nil to make the notification not disappear
+                    }
+                end
+                if Auto_Collect_Coins_Notification == 1 then
+                    Auto_Collect_Coins_Notification = Auto_Collect_Coins_Notification + 1
+                end
                 for Index, Orb in ipairs(OrbsFolder:GetChildren()) do
                     task.wait()
                     if Orb then
@@ -341,19 +380,19 @@ if game.PlaceId == 18901165922 then
                     Orbs_Collector:Disconnect()  -- Stop listening for new orbs
                 end
                 if Auto_Collect_Coins_Notification > 0 then
-                Fluent:Notify{
-                    Title = "Looter Hub Notification",
-                    Content = "Auto Roll Coins Is Disabled",
-                    Duration = 0.5 -- Set to nil to make the notification not disappear
-                }
+                    Fluent:Notify{
+                        Title = "Radiant Hub Notification",
+                        Content = "Auto Roll Coins Is Disabled",
+                        Duration = 1 -- Set to nil to make the notification not disappear
+                    }
                 end
                 if Auto_Collect_Coins_Notification == 0 then
-                Auto_Collect_Coins_Notification = Auto_Collect_Coins_Notification + 1
+                    Auto_Collect_Coins_Notification = Auto_Collect_Coins_Notification + 1
                 end
             end
     end)
 
-    local Auto_Collect_Fruits = Auto_Farm_Section:AddToggle("MyToggle", 
+    local Auto_Collect_Fruits = Auto_Farm_Section:AddToggle("Auto_Collect_Fruits", 
     {
     Title = "Auto Collect Fruits", 
     Description = "Auto Collects Fruits",
@@ -362,11 +401,16 @@ if game.PlaceId == 18901165922 then
     Auto_Collect_Fruits:OnChanged(function(Auto_Collect_Fruits_Check)
         Is_Auto_Collect_Fruits_Check=Auto_Collect_Fruits_Check
         if Is_Auto_Collect_Fruits_Check then
-            Fluent:Notify{
-                Title = "Looter Hub Notification",
-                Content = "Auto Collect Fruits Is Enabled",
-                Duration = 0.5 -- Set to nil to make the notification not disappear
-            }
+            if Auto_Collect_Fruits_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Collect Fruits Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Collect_Fruits_Notification == 1 then
+                Auto_Collect_Fruits_Notification = Auto_Collect_Fruits_Notification + 1
+            end
             while Is_Auto_Collect_Fruits_Check do
                 for _, object in ipairs(workspace.__THINGS.Breakables:GetChildren()) do
                     local basePart = object:FindFirstChild("base")
@@ -382,19 +426,19 @@ if game.PlaceId == 18901165922 then
             end
         else
             if Auto_Collect_Fruits_Notification > 0 then
-            Fluent:Notify{
-                Title = "Looter Hub Notification",
-                Content = "Auto Collect Fruits Is Disabled",
-                Duration = 0.5 -- Set to nil to make the notification not disappear
-            }
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Collect Fruits Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
             end
             if Auto_Collect_Fruits_Notification == 0 then
-            Auto_Collect_Fruits_Notification = Auto_Collect_Fruits_Notification + 1
+                Auto_Collect_Fruits_Notification = Auto_Collect_Fruits_Notification + 1
             end
         end
     end)
 
-    local Auto_Collect_Flying_Gifts = Auto_Farm_Section:AddToggle("MyToggle", 
+    local Auto_Collect_Flying_Gifts = Auto_Farm_Section:AddToggle("Auto_Collect_Flying_Gifts", 
     {
     Title = "Auto Collect Flying Gifts", 
     Description = "Auto Collects Flying Gifts",
@@ -402,24 +446,47 @@ if game.PlaceId == 18901165922 then
     })
     Auto_Collect_Flying_Gifts:OnChanged(function(Auto_Collect_Flying_Gifts_Check)
             Is_Auto_Collect_Flying_Gifts_Check=Auto_Collect_Flying_Gifts_Check
-            while Is_Auto_Collect_Flying_Gifts_Check do
-                if Flying_Gifts:GetChildren() ~= 0 then
-                    local model = Flying_Gifts:FindFirstChild("Model")
-                    if model then
-                    local Balloon_ID = workspace.__THINGS.FlyingGifts.Model.Balloon:GetAttribute("FlyingGiftUID")
-                    local args = {
-                        [1] = Balloon_ID
+            if Is_Auto_Collect_Flying_Gifts_Check then
+                if Auto_Collect_Flying_Gifts_Notification > 1 then
+                    Fluent:Notify{
+                        Title = "Radiant Hub Notification",
+                        Content = "Auto Collect Flying Gifts Is Enabled",
+                        Duration = 1 -- Set to nil to make the notification not disappear
                     }
-
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("FlyingGifts_Claim"):FireServer(unpack(args))
-                    workspace.__THINGS.FlyingGifts.Model:Destroy()
-                    end
                 end
-                task.wait(0.1)
+                if Auto_Collect_Flying_Gifts_Notification == 1 then
+                    Auto_Collect_Flying_Gifts_Notification = Auto_Collect_Flying_Gifts_Notification + 1
+                end
+                while Is_Auto_Collect_Flying_Gifts_Check do
+                    if Flying_Gifts:GetChildren() ~= 0 then
+                        local model = Flying_Gifts:FindFirstChild("Model")
+                        if model then
+                        local Balloon_ID = workspace.__THINGS.FlyingGifts.Model.Balloon:GetAttribute("FlyingGiftUID")
+                        local args = {
+                            [1] = Balloon_ID
+                        }
+
+                        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("FlyingGifts_Claim"):FireServer(unpack(args))
+                        workspace.__THINGS.FlyingGifts.Model:Destroy()
+                        end
+                    end
+                    task.wait(0.1)
+                end
+            else
+                if Auto_Collect_Flying_Gifts_Notification > 0 then
+                    Fluent:Notify{
+                        Title = "Radiant Hub Notification",
+                        Content = "Auto Collect Flying Gifts Is Disabled",
+                        Duration = 1 -- Set to nil to make the notification not disappear
+                    }
+                end
+                if Auto_Collect_Flying_Gifts_Notification == 0 then
+                    Auto_Collect_Flying_Gifts_Notification = Auto_Collect_Flying_Gifts_Notification + 1
+                end
             end
     end)
 
-    local Auto_Collect_Hidden_Gifts = Auto_Farm_Section:AddToggle("MyToggle", 
+    local Auto_Collect_Hidden_Gifts = Auto_Farm_Section:AddToggle("Auto_Collect_Hidden_Gifts", 
     {
     Title = "Auto Collect Hidden Gifts", 
     Description = "Auto Collects Hidden Gifts",
@@ -427,33 +494,60 @@ if game.PlaceId == 18901165922 then
     })
     Auto_Collect_Hidden_Gifts:OnChanged(function(Auto_Collect_Hidden_Gifts_Check)
             Is_Auto_Collect_Hidden_Gifts_Check=Auto_Collect_Hidden_Gifts_Check
-            while Is_Auto_Collect_Hidden_Gifts_Check do
-                if Hidden_Gifts:GetChildren() ~= 0 then
-                    local Hidden_Gifts_Tp_Checker = 0
-                    local Pos_Before_Hidden_Gifts_Collection = Humanoid_Root_Part.CFrame
-                    for _, child in ipairs(Hidden_Gifts:GetChildren()) do
-                        local Hidden_Gift_Model = child:FindFirstChild("Model")
-                        if Hidden_Gift_Model then
+            if Is_Auto_Collect_Hidden_Gifts_Check then
+                if Auto_Collect_Hidden_Gifts_Notification > 1 then
+                    Fluent:Notify{
+                        Title = "Radiant Hub Notification",
+                        Content = "Auto Collect Hidden Gifts Is Enabled",
+                        Duration = 1 -- Set to nil to make the notification not disappear
+                    }
+                end
+                if Auto_Collect_Hidden_Gifts_Notification == 1 then
+                    Auto_Collect_Hidden_Gifts_Notification = Auto_Collect_Hidden_Gifts_Notification + 1
+                end
+                while Is_Auto_Collect_Hidden_Gifts_Check do
+                    if Hidden_Gifts:GetChildren() ~= 0 then
+                        local Hidden_Gifts_Tp_Checker = 0
+                        local Pos_Before_Hidden_Gifts_Collection = Humanoid_Root_Part.CFrame
+                        for _, child in ipairs(Hidden_Gifts:GetChildren()) do
+                            local Hidden_Gift_Model = child:FindFirstChild("Model")
+                            if Hidden_Gift_Model then
+                                Character_Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                                Humanoid_Root_Part.CFrame = Hidden_Gift_Model.CFrame
+                                Hidden_Gifts_Tp_Checker = Hidden_Gifts_Tp_Checker + 1
+                                task.wait(0.5)
+                            end
+                        end
+                        if Hidden_Gifts_Tp_Checker > 0 then
                             Character_Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-                            Humanoid_Root_Part.CFrame = Hidden_Gift_Model.CFrame
-                            Hidden_Gifts_Tp_Checker = Hidden_Gifts_Tp_Checker + 1
-                            task.wait(0.5)
+                            Humanoid_Root_Part.CFrame = Pos_Before_Hidden_Gifts_Collection
+                            Hidden_Gifts_Tp_Checker = 0
                         end
                     end
-                    if Hidden_Gifts_Tp_Checker > 0 then
-                        Character_Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-                        Humanoid_Root_Part.CFrame = Pos_Before_Hidden_Gifts_Collection
-                        Hidden_Gifts_Tp_Checker = 0
-                    end
+                    task.wait()
                 end
-                task.wait()
+            else
+                if Auto_Collect_Hidden_Gifts_Notification > 0 then
+                    Fluent:Notify{
+                        Title = "Radiant Hub Notification",
+                        Content = "Auto Collect Hidden Gifts Is Disabled",
+                        Duration = 1 -- Set to nil to make the notification not disappear
+                    }
+                end
+                if Auto_Collect_Hidden_Gifts_Notification == 0 then
+                    Auto_Collect_Hidden_Gifts_Notification = Auto_Collect_Hidden_Gifts_Notification + 1
+                end
             end
     end)
 
     Auto_Farm_Section:AddParagraph({
+        Title = "►─═ 🆃🅷🅸🅴🆅🅸🅽🅶 ═─◄",
+    })
+
+    Auto_Farm_Section:AddParagraph({
         Title = "Use Only After Thieving Upgrade Has Been Unlocked!!!"
     })
-    local Auto_Thieving_Select = Auto_Farm_Section:AddDropdown("MultiDropdown", {
+    local Auto_Thieving_Select = Auto_Farm_Section:AddDropdown("Auto_Thieving_Select", {
         Title = "Select Which Stall To Thieve",
         Description = "Select which stall you want to thieve",
         Values = {"Wood", "Blue", "Black", "Marble", "Steam Punk", "Tech", "Royal", "Purple Castle","Hacker Stall"},
@@ -467,7 +561,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Thieving = Auto_Farm_Section:AddToggle("MyToggle", 
+    local Auto_Thieving = Auto_Farm_Section:AddToggle("Auto_Thieving", 
     {
     Title = "Auto Thieving", 
     Description = "Auto Thievies for you",
@@ -476,11 +570,16 @@ if game.PlaceId == 18901165922 then
     Auto_Thieving:OnChanged(function(Auto_Thieving_Check)
         Is_Auto_Thieving_Check=Auto_Thieving_Check
         if Is_Auto_Thieving_Check then
-            Fluent:Notify{
-                Title = "Looter Hub Notification",
-                Content = "Auto Thieving Is Enabled",
-                Duration = 1 -- Set to nil to make the notification not disappear
-            }
+            if Auto_Thieving_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Thieving Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Thieving_Notification == 1 then
+                Auto_Thieving_Notification = Auto_Thieving_Notification + 1
+            end
             while Is_Auto_Thieving_Check do
                 Auto_Thieving_Calling:Auto_Thieving_Selected_Function(Auto_Thieving_Selected)
                 task.wait()
@@ -488,16 +587,20 @@ if game.PlaceId == 18901165922 then
         else
             if Auto_Thieving_Notification > 0 then
             Fluent:Notify{
-                Title = "Looter Hub Notification",
+                Title = "Radiant Hub Notification",
                 Content = "Auto Thieving Is Disabled",
                 Duration = 1 -- Set to nil to make the notification not disappear
             }    
             end
             if Auto_Thieving_Notification == 0 then
-            Auto_Thieving_Notification = Auto_Thieving_Notification + 1
+                Auto_Thieving_Notification = Auto_Thieving_Notification + 1
             end
         end
     end)
+
+    Auto_Farm_Section:AddParagraph({
+        Title = "►─══─◄",
+    })
 
     local Mining = Tabs.Auto_Farm:AddSection("| Mining")
     Mining:AddParagraph({
@@ -530,7 +633,7 @@ if game.PlaceId == 18901165922 then
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mining_SetSelectedPickaxe"):InvokeServer(unpack(args)) --This is for Golden Pickaxe
         end
     }
-    local Auto_Mine_Select = Mining:AddDropdown("MultiDropdown", {
+    local Auto_Mine_Select = Mining:AddDropdown("Auto_Mine_Select", {
         Title = "Select Ores To Mine",
         Description = "Only select the ones you have unlocked",
         Values = {"Dirt Ore", "Stone Ore", "Copper Ore", "Iron Ore", "Gold Ore", "Emerald Ore", "Obsidian Ore", "Diamond Ore", "Lava Ore"},
@@ -544,7 +647,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Magma_Scroll = Mining:AddToggle("MyToggle", 
+    local Auto_Magma_Scroll = Mining:AddToggle("Auto_Magma_Scroll", 
     {
     Title = "Auto Use Magma Scroll",
     Description = "Auto consumes Magma scroll",
@@ -554,6 +657,16 @@ if game.PlaceId == 18901165922 then
     Auto_Magma_Scroll:OnChanged(function(Auto_Magma_Scroll_Check)
         Is_Auto_Magma_Scroll_Check=Auto_Magma_Scroll_Check
         if Is_Auto_Magma_Scroll_Check then
+            if Auto_Magma_Scroll_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Magma Scroll Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Magma_Scroll_Notification == 1 then
+                Auto_Magma_Scroll_Notification = Auto_Magma_Scroll_Notification + 1
+            end
             while Is_Auto_Magma_Scroll_Check do
                 local args = {
                     [1] = "748c6af73ccc4c509c0ac106621c087c", -- magma scroll
@@ -563,10 +676,21 @@ if game.PlaceId == 18901165922 then
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Consumables_Consume"):InvokeServer(unpack(args))
                 task.wait()
             end
+        else
+            if Auto_Magma_Scroll_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Magma Scroll Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Magma_Scroll_Notification == 0 then
+                Auto_Magma_Scroll_Notification = Auto_Magma_Scroll_Notification + 1
+            end
         end
     end)
 
-    local Auto_Mine = Mining:AddToggle("MyToggle", 
+    local Auto_Mine = Mining:AddToggle("Auto_Mine", 
     {
     Title = "Auto Mine", 
     Description = "Auto Mines the selected ores",
@@ -576,11 +700,16 @@ if game.PlaceId == 18901165922 then
     Auto_Mine:OnChanged(function(Auto_Mine_Check)
         Is_Auto_Mine_Check=Auto_Mine_Check
         if Is_Auto_Mine_Check then
-            Fluent:Notify{
-                Title = "Looter Hub Notification",
-                Content = "Auto Mine Is Enabled",
-                Duration = 1 -- Set to nil to make the notification not disappear
-            }
+            if Auto_Mine_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Mine Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Mine_Notification == 1 then
+                Auto_Mine_Notification = Auto_Mine_Notification + 1
+            end
             while Is_Auto_Mine_Check do 
                 Auto_Mine_Calling:Auto_Mine_Selected_Ores(Auto_Mine_Selected)
                 task.wait()
@@ -588,13 +717,13 @@ if game.PlaceId == 18901165922 then
         else
             if Auto_Mine_Notification > 0 then
             Fluent:Notify{
-                Title = "Looter Hub Notification",
+                Title = "Radiant Hub Notification",
                 Content = "Auto Mine Is Disabled",
                 Duration = 1 -- Set to nil to make the notification not disappear
             }
             end
             if Auto_Mine_Notification == 0 then
-            Auto_Mine_Notification = Auto_Mine_Notification + 1
+                Auto_Mine_Notification = Auto_Mine_Notification + 1
             end
         end
     end)
@@ -604,7 +733,7 @@ if game.PlaceId == 18901165922 then
     Fishing:AddParagraph({
         Title = "Use Only After Fishing Upgrade Has Been Unlocked!!!",
     })
-    local Auto_Fish = Fishing:AddToggle("MyToggle", 
+    local Auto_Fish = Fishing:AddToggle("Auto_Fish", 
     {
     Title = "Auto Fish", 
     Description = "Auto Fishes",
@@ -613,11 +742,16 @@ if game.PlaceId == 18901165922 then
     Auto_Fish:OnChanged(function(Auto_Fish_Check)
         Is_Auto_Fish_Check=Auto_Fish_Check
         if Is_Auto_Fish_Check then
-            Fluent:Notify{
-                Title = "Looter Hub Notification",
-                Content = "Auto Fish Is Enabled",
-                Duration = 1 -- Set to nil to make the notification not disappear
-            }
+                if Auto_Fish_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Fish Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Fish_Notification == 1 then
+                Auto_Fish_Notification = Auto_Fish_Notification + 1
+            end
             while Is_Auto_Fish_Check do
                 local args = {
                     [1] = "Default"
@@ -629,23 +763,23 @@ if game.PlaceId == 18901165922 then
         else
             if Auto_Fish_Notification > 0 then
             Fluent:Notify{
-                Title = "Looter Hub Notification",
+                Title = "Radiant Hub Notification",
                 Content = "Auto Fish Is Disabled",
                 Duration = 1 -- Set to nil to make the notification not disappear
             }
             
             end
             if Auto_Fish_Notification == 0 then
-            Auto_Fish_Notification = Auto_Fish_Notification + 1
+                Auto_Fish_Notification = Auto_Fish_Notification + 1
             end
         end
     end)
 
     Fishing:AddParagraph({
-        Title = "►─═ 🅱🅾🅰🆃 🆂🅴🅲🆃🅸🅾🅽 ═─◄",
+        Title = "►─═ 🅱🅾🅰🆃🆂 ═─◄",
     })
 
-    local Auto_Boating_Fish = Fishing:AddToggle("MyToggle", 
+    local Auto_Boating_Fish = Fishing:AddToggle("Auto_Boating_Fish", 
     {
     Title = "Auto Boat Fish", 
     Description = "Auto Fishes in the boat region",
@@ -654,6 +788,16 @@ if game.PlaceId == 18901165922 then
     Auto_Boating_Fish:OnChanged(function(Auto_Boating_Fish_Check)
         Is_Auto_Boating_Fish_Check=Auto_Boating_Fish_Check
         if Is_Auto_Boating_Fish_Check then
+            if Auto_Boating_Fish_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Boat Fish Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Boating_Fish_Notification == 1 then
+                Auto_Boating_Fish_Notification = Auto_Boating_Fish_Notification + 1
+            end
             while Is_Auto_Boating_Fish_Check do
                 local args = {
                     [1] = "Boating"
@@ -662,18 +806,41 @@ if game.PlaceId == 18901165922 then
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer() --Successfully Catch Fish
                 task.wait()
             end
+        else
+            if Auto_Boating_Fish_Notification > 0 then
+            Fluent:Notify{
+                Title = "Radiant Hub Notification",
+                Content = "Auto Boat Fish Is Disabled",
+                Duration = 1 -- Set to nil to make the notification not disappear
+            }
+            
+            end
+            if Auto_Boating_Fish_Notification == 0 then
+                Auto_Boating_Fish_Notification = Auto_Boating_Fish_Notification + 1
+            end
         end
     end)
 
-    local Auto_Kraken_Fish = Fishing:AddToggle("MyToggle", 
+    local Auto_Kraken_Fish = Fishing:AddToggle("Auto_Kraken_Fish", 
     {
     Title = "Auto Kraken Fish", 
     Description = "YOU NEED TO USE KRAKEN TENTACLE BEFORE USING THIS",
     Default = false
     })
+
     Auto_Kraken_Fish:OnChanged(function(Auto_Kraken_Fish_Check)
         Is_Auto_Kraken_Fish_Check=Auto_Kraken_Fish_Check
         if Is_Auto_Kraken_Fish_Check then
+            if Auto_Kraken_Fish_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Kraken Fish Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Kraken_Fish_Notification == 1 then
+                Auto_Kraken_Fish_Notification = Auto_Kraken_Fish_Notification + 1
+            end
             while Is_Auto_Kraken_Fish_Check do
                 local args = {
                     [1] = "Kraken"
@@ -682,10 +849,21 @@ if game.PlaceId == 18901165922 then
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer()
                 task.wait()
             end
+        else
+            if Auto_Kraken_Fish_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Kraken Fish Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Kraken_Fish_Notification == 0 then
+                Auto_Kraken_Fish_Notification = Auto_Kraken_Fish_Notification + 1
+            end
         end
     end)
 
-    local Auto_Boating_Fish_Upgrades = Fishing:AddToggle("MyToggle", 
+    local Auto_Boating_Fish_Upgrades = Fishing:AddToggle("Auto_Boating_Fish_Upgrades", 
     {
     Title = "Auto Boat Upgrades", 
     Description = "Auto upgardes the boat stuff",
@@ -694,9 +872,30 @@ if game.PlaceId == 18901165922 then
     Auto_Boating_Fish_Upgrades:OnChanged(function(Auto_Boating_Fish_Upgrades_Check)
         Is_Auto_Boating_Fish_Upgrades_Check=Auto_Boating_Fish_Upgrades_Check
         if Is_Auto_Boating_Fish_Upgrades_Check then
+            if Auto_Boating_Fish_Upgrades_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Boat Upgrades Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Boating_Fish_Upgrades_Notification == 1 then
+                Auto_Boating_Fish_Upgrades_Notification = Auto_Boating_Fish_Upgrades_Notification + 1
+            end
             while Is_Auto_Boating_Fish_Upgrades_Check do
                 Auto_Boating_Fish_Upgrades_Calling:Boat_Upgrades_Specific()
                 task.wait()
+            end
+        else
+            if Auto_Boating_Fish_Upgrades_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Boat Upgrades Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Boating_Fish_Upgrades_Notification == 0 then
+                Auto_Boating_Fish_Upgrades_Notification = Auto_Boating_Fish_Upgrades_Notification + 1
             end
         end
     end)
@@ -706,10 +905,14 @@ if game.PlaceId == 18901165922 then
     })
 
     Fishing:AddParagraph({
+        Title = "►─═ 🅸🅲🅴 🅵🅸🆂🅷🅸🅽🅶 ═─◄",
+    })
+
+    Fishing:AddParagraph({
         Title = "Use Only After Iron Rod Has Been Unlocked!!!",
     })
 
-    local Auto_Ice_Bait = Fishing:AddToggle("MyToggle", 
+    local Auto_Ice_Bait = Fishing:AddToggle("Auto_Ice_Bait", 
     {
     Title = "Auto Use Frozen Bait", 
     Description = "Auto consumes Frozen bait",
@@ -719,6 +922,16 @@ if game.PlaceId == 18901165922 then
     Auto_Ice_Bait:OnChanged(function(Auto_Ice_Bait_Check)
         Is_Auto_Frozen_Bait_Check=Auto_Ice_Bait_Check
         if Is_Auto_Frozen_Bait_Check then
+            if Auto_Ice_Bait_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Frozen Bait Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Ice_Bait_Notification == 1 then
+                Auto_Ice_Bait_Notification = Auto_Ice_Bait_Notification + 1
+            end
             while Is_Auto_Frozen_Bait_Check do
                 local args = {
                     [1] = "36d511d010d546e6af243e3f577963af", --frozen bait
@@ -727,10 +940,21 @@ if game.PlaceId == 18901165922 then
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Consumables_Consume"):InvokeServer(unpack(args))
                 task.wait()
             end
+        else
+            if Auto_Ice_Bait_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Frozen Bait Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Ice_Bait_Notification == 0 then
+                Auto_Ice_Bait_Notification = Auto_Ice_Bait_Notification + 1
+            end
         end
     end)
 
-    local Auto_Ice_Fish = Fishing:AddToggle("MyToggle", 
+    local Auto_Ice_Fish = Fishing:AddToggle("Auto_Ice_Fish", 
     {
     Title = "Auto Ice Fish", 
     Description = "Auto fishes in the ice region",
@@ -739,11 +963,16 @@ if game.PlaceId == 18901165922 then
     Auto_Ice_Fish:OnChanged(function(Auto_Ice_Fish_Check)
         Is_Auto_Ice_Fish_Check=Auto_Ice_Fish_Check
         if Is_Auto_Ice_Fish_Check then
-            Fluent:Notify{
-                Title = "Looter Hub Notification",
-                Content = "Auto Ice Fish Is Enabled",
-                Duration = 1 -- Set to nil to make the notification not disappear
-            }
+            if Auto_Ice_Fish_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Ice Fish Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Ice_Fish_Notification == 1 then
+                Auto_Ice_Fish_Notification = Auto_Ice_Fish_Notification + 1
+            end
             while Is_Auto_Ice_Fish_Check do
                 local args = {
                     [1] = "Ice"
@@ -755,23 +984,31 @@ if game.PlaceId == 18901165922 then
         else
             if Auto_Ice_Fish_Notification > 0 then
             Fluent:Notify{
-                Title = "Looter Hub Notification",
+                Title = "Radiant Hub Notification",
                 Content = "Auto Ice Fish Is Disabled",
                 Duration = 1 -- Set to nil to make the notification not disappear
             }
             
             end
             if Auto_Ice_Fish_Notification == 0 then
-            Auto_Ice_Fish_Notification = Auto_Ice_Fish_Notification + 1
+                Auto_Ice_Fish_Notification = Auto_Ice_Fish_Notification + 1
             end
         end
     end)
 
     Fishing:AddParagraph({
+        Title = "►─══─◄",
+    })
+
+    Fishing:AddParagraph({
+        Title = "►─═ 🅲🅾🆁🆁🆄🅿🆃🅴🅳 🅵🅸🆂🅷🅸🅽🅶 ═─◄",
+    })
+
+    Fishing:AddParagraph({
         Title = "Use Only If You Have Coruptted Bait!!!",
     })
 
-    local Auto_Corrupted_Bait = Fishing:AddToggle("MyToggle", 
+    local Auto_Corrupted_Bait = Fishing:AddToggle("Auto_Corrupted_Bait", 
     {
     Title = "Auto Use Corrupted Bait", 
     Description = "Auto consumes Corrupted bait",
@@ -781,6 +1018,16 @@ if game.PlaceId == 18901165922 then
     Auto_Corrupted_Bait:OnChanged(function(Auto_Corrupted_Bait_Check)
         Is_Auto_Corrupted_Bait_Check=Auto_Corrupted_Bait_Check
         if Is_Auto_Corrupted_Bait_Check then
+            if Auto_Corrupted_Bait_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Corrupted Bait Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Corrupted_Bait_Notification == 1 then
+                Auto_Corrupted_Bait_Notification = Auto_Corrupted_Bait_Notification + 1
+            end
             while Is_Auto_Corrupted_Bait_Check do
                 local args = {
                     [1] = "b1176127ce004d3ca7ad3d9ec17afca1", -- curupted bait
@@ -789,10 +1036,21 @@ if game.PlaceId == 18901165922 then
                 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Consumables_Consume"):InvokeServer(unpack(args))
                 task.wait()
             end
+        else
+            if Auto_Corrupted_Bait_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Corrupted Bait Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Corrupted_Bait_Notification == 0 then
+                Auto_Corrupted_Bait_Notification = Auto_Corrupted_Bait_Notification + 1
+            end
         end
     end)
 
-    local Auto_Corrupted_Fish = Fishing:AddToggle("MyToggle", 
+    local Auto_Corrupted_Fish = Fishing:AddToggle("Auto_Corrupted_Fish", 
     {
     Title = "Auto Corrupted Fish", 
     Description = "Auto fishes in the Corrupted region",
@@ -802,11 +1060,16 @@ if game.PlaceId == 18901165922 then
     Auto_Corrupted_Fish:OnChanged(function(Auto_Corrupted_Fish_Check)
         Is_Auto_Corrupted_Fish_Check=Auto_Corrupted_Fish_Check
         if Is_Auto_Corrupted_Fish_Check then
-            Fluent:Notify{
-                Title = "Looter Hub Notification",
-                Content = "Auto Corrupted Fish Is Enabled",
-                Duration = 0.5 -- Set to nil to make the notification not disappear
-            }
+            if Auto_Corrupted_Fish_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Corrupted Fish Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Corrupted_Fish_Notification == 1 then
+                Auto_Corrupted_Fish_Notification = Auto_Corrupted_Fish_Notification + 1
+            end
             while Is_Auto_Corrupted_Fish_Check do
                 local args = {
                     [1] = "Corrupted"
@@ -818,22 +1081,25 @@ if game.PlaceId == 18901165922 then
         else
             if Auto_Corrupted_Fish_Notification > 0 then
             Fluent:Notify{
-                Title = "Looter Hub Notification",
+                Title = "Radiant Hub Notification",
                 Content = "Auto Corrupted Fish Is Disabled",
-                Duration = 0.5 -- Set to nil to make the notification not disappear
+                Duration = 1 -- Set to nil to make the notification not disappear
             }
-            
             end
             if Auto_Corrupted_Fish_Notification == 0 then
-            Auto_Corrupted_Fish_Notification = Auto_Corrupted_Fish_Notification + 1
+                Auto_Corrupted_Fish_Notification = Auto_Corrupted_Fish_Notification + 1
             end
         end
     end)
 
+    Fishing:AddParagraph({
+        Title = "►─══─◄",
+    })
+
     --Event Section
     local Auto_Event_Section = Tabs.Auto_Event:AddSection("| Clover Event")
 
-    local Auto_Clover_Pot = Auto_Event_Section:AddToggle("MyToggle", 
+    local Auto_Clover_Pot = Auto_Event_Section:AddToggle("Auto_Clover_Pot", 
     {
     Title = "Auto Open Clover Pot", 
     Description = "Use it for opening clover pot at max!!",
@@ -841,17 +1107,40 @@ if game.PlaceId == 18901165922 then
     })
     Auto_Clover_Pot:OnChanged(function(Auto_Clover_Pot_Check)
         Is_Auto_Clover_Pot_Check=Auto_Clover_Pot_Check
-        while Is_Auto_Clover_Pot_Check do
-            local Pot_Text = workspace.__THINGS.Tycoons.TycoonBlueprintClover.Interactable.EggBillboard.Main.BillboardGui.Five.Text
-            if Pot_Text == "100 / 100" or Pot_Text == "200 / 200" or Pot_Text == "500 / 500" or Pot_Text == "1000 / 1000" or Pot_Text == "2000 / 2000" then
-                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Clovers_HatchEgg"):InvokeServer()
+        if Is_Auto_Clover_Pot_Check then
+            if Auto_Clover_Pot_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Clover Pot Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Pot_Notification == 1 then
+                Auto_Clover_Pot_Notification = Auto_Clover_Pot_Notification + 1
+            end
+            while Is_Auto_Clover_Pot_Check do
+                local Pot_Text = workspace.__THINGS.Tycoons.TycoonBlueprintClover.Interactable.EggBillboard.Main.BillboardGui.Five.Text
+                if Pot_Text == "100 / 100" or Pot_Text == "200 / 200" or Pot_Text == "500 / 500" or Pot_Text == "1,000 / 1,000" or Pot_Text == "2,000 / 2,000" or Pot_Text == "10,000 / 10,000" then
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Clovers_HatchEgg"):InvokeServer()
+                    task.wait()
+                end
                 task.wait()
             end
-            task.wait()
+        else
+            if Auto_Clover_Pot_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Clover Pot Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Pot_Notification == 0 then
+                Auto_Clover_Pot_Notification = Auto_Clover_Pot_Notification + 1
+            end
         end
     end)
 
-    local Auto_Clover_Collect = Auto_Event_Section:AddToggle("MyToggle", 
+    local Auto_Clover_Collect = Auto_Event_Section:AddToggle("Auto_Clover_Collect", 
     {
     Title = "Auto Collect Clovers", 
     Description = "Use it for Collecting Clovers!!",
@@ -860,6 +1149,16 @@ if game.PlaceId == 18901165922 then
     Auto_Clover_Collect:OnChanged(function(Auto_Clover_Collect_Check)
         Is_Auto_Clover_Collect_Check=Auto_Clover_Collect_Check
         if Is_Auto_Clover_Collect_Check then
+            if Auto_Clover_Collect_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Collect Clovers Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Collect_Notification == 1 then
+                Auto_Clover_Collect_Notification = Auto_Clover_Collect_Notification + 1
+            end
             runningTask1 = true
             runningTask2 = true
             runningTask3 = true
@@ -903,6 +1202,16 @@ if game.PlaceId == 18901165922 then
                     num3 = 15
                 end)
         else
+            if Auto_Clover_Collect_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Collect Clovers Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Collect_Notification == 0 then
+                Auto_Clover_Collect_Notification = Auto_Clover_Collect_Notification + 1
+            end
             runningTask1 = false
             runningTask2 = false
             runningTask3 = false
@@ -910,7 +1219,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Clover_Storage_Collect = Auto_Event_Section:AddToggle("MyToggle", 
+    local Auto_Clover_Storage_Collect = Auto_Event_Section:AddToggle("Auto_Clover_Storage_Collect", 
     {
     Title = "Auto Clover Storage Collect", 
     Description = "Use it for Collecting Clover Storages!!",
@@ -918,13 +1227,36 @@ if game.PlaceId == 18901165922 then
     })
     Auto_Clover_Storage_Collect:OnChanged(function(Auto_Clover_Storage_Collect_Check)
         Is_Auto_Clover_Storage_Collect_Check=Auto_Clover_Storage_Collect_Check
+        if Is_Auto_Clover_Storage_Collect_Check then
+            if Auto_Clover_Storage_Collect_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Clover Storage Collect Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Storage_Collect_Notification == 1 then
+                Auto_Clover_Storage_Collect_Notification = Auto_Clover_Storage_Collect_Notification + 1
+            end
         while Is_Auto_Clover_Storage_Collect_Check do
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Clovers_HopperClaim"):InvokeServer()
             task.wait(60)
         end
+        else
+            if Auto_Clover_Storage_Collect_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Clover Storage Collect Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Storage_Collect_Notification == 0 then
+                Auto_Clover_Storage_Collect_Notification = Auto_Clover_Storage_Collect_Notification + 1
+            end
+        end
     end)
 
-    local Auto_Clover_Area = Auto_Event_Section:AddToggle("MyToggle", 
+    local Auto_Clover_Area = Auto_Event_Section:AddToggle("Auto_Clover_Area", 
     {
     Title = "Auto Unlock Clover Areas", 
     Description = "Use it for Unlocking Clover_Areas!!",
@@ -932,18 +1264,41 @@ if game.PlaceId == 18901165922 then
     })
     Auto_Clover_Area:OnChanged(function(Auto_Clover_Area_Check)
         Is_Auto_Clover_Area_Check=Auto_Clover_Area_Check
-        while Is_Auto_Clover_Area_Check do
-            for _, Clover_Area in ipairs(Clover_Areas) do
-                    local args = {
-                        [1] = Clover_Area,
-                        [2] = "Clover"
-                    }
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+        if Is_Auto_Clover_Area_Check then
+            if Auto_Clover_Area_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Unlock Clover Areas Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Area_Notification == 1 then
+                Auto_Clover_Area_Notification = Auto_Clover_Area_Notification + 1
+            end
+            while Is_Auto_Clover_Area_Check do
+                for _, Clover_Area in ipairs(Clover_Areas) do
+                        local args = {
+                            [1] = Clover_Area,
+                            [2] = "Clover"
+                        }
+                        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+                end
+            end
+        else
+            if Auto_Clover_Area_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Unlock Clover Areas Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Area_Notification == 0 then
+                Auto_Clover_Area_Notification = Auto_Clover_Area_Notification + 1
             end
         end
     end)
 
-    local Auto_Clover_Farmer = Auto_Event_Section:AddToggle("MyToggle", 
+    local Auto_Clover_Farmer = Auto_Event_Section:AddToggle("Auto_Clover_Farmer", 
     {
     Title = "Auto Unlock Clover Farmers", 
     Description = "Use it for Unlocking Clover Farmers!!",
@@ -951,18 +1306,41 @@ if game.PlaceId == 18901165922 then
     })
     Auto_Clover_Farmer:OnChanged(function(Auto_Clover_Farmer_Check)
         Is_Auto_Clover_Farmer_Check=Auto_Clover_Farmer_Check
-        while Is_Auto_Clover_Farmer_Check do
-            for _, Clover_Farmer in ipairs(Clover_Collector) do
-                local args = {
-                    [1] = Clover_Farmer,
-                    [2] = "Clover"
+        if Is_Auto_Clover_Farmer_Check then
+            if Auto_Clover_Farmer_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Unlock Clover Farmers Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
                 }
-                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+            end
+            if Auto_Clover_Farmer_Notification == 1 then
+                Auto_Clover_Farmer_Notification = Auto_Clover_Farmer_Notification + 1
+            end
+            while Is_Auto_Clover_Farmer_Check do
+                for _, Clover_Farmer in ipairs(Clover_Collector) do
+                    local args = {
+                        [1] = Clover_Farmer,
+                        [2] = "Clover"
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+                end
+            end
+        else
+            if Auto_Clover_Farmer_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Unlock Clover Farmers Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Farmer_Notification == 0 then
+                Auto_Clover_Farmer_Notification = Auto_Clover_Farmer_Notification + 1
             end
         end
     end)
 
-    local Auto_Clover_Area_Speed = Auto_Event_Section:AddToggle("MyToggle", 
+    local Auto_Clover_Area_Speed = Auto_Event_Section:AddToggle("Auto_Clover_Area_Speed", 
     {
     Title = "Auto Unlock Clover Area Speeds", 
     Description = "Use it for Unlocking Clover Area Speeds!!",
@@ -970,18 +1348,41 @@ if game.PlaceId == 18901165922 then
     })
     Auto_Clover_Area_Speed:OnChanged(function(Auto_Clover_Area_Speed_Check)
         Is_Clover_Area_Speed_Check=Auto_Clover_Area_Speed_Check
-        while Is_Clover_Area_Speed_Check do
-            for _, Clover_Area_Speed in ipairs(Clover_Area_Speeds) do
-                local args = {
-                [1] = Clover_Area_Speed,
-                [2] = "Clover"
-            }
-            game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+        if Is_Clover_Area_Speed_Check then
+            if Auto_Clover_Area_Speed_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Unlock Clover Area Speeds Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Area_Speed_Notification == 1 then
+                Auto_Clover_Area_Speed_Notification = Auto_Clover_Area_Speed_Notification + 1
+            end
+            while Is_Clover_Area_Speed_Check do
+                for _, Clover_Area_Speed in ipairs(Clover_Area_Speeds) do
+                    local args = {
+                    [1] = Clover_Area_Speed,
+                    [2] = "Clover"
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+                end
+            end
+        else
+            if Auto_Clover_Area_Speed_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Unlock Clover Area Speeds Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Area_Speed_Notification == 0 then
+                Auto_Clover_Area_Speed_Notification = Auto_Clover_Area_Speed_Notification + 1
             end
         end
     end)
 
-    local Auto_Clover_Area_Quality = Auto_Event_Section:AddToggle("MyToggle", 
+    local Auto_Clover_Area_Quality = Auto_Event_Section:AddToggle("Auto_Clover_Area_Quality", 
     {
     Title = "Auto Unlock Clover Area Qualitys", 
     Description = "Use it for Unlocking Clover Area Qualitys!!",
@@ -989,18 +1390,41 @@ if game.PlaceId == 18901165922 then
     })
     Auto_Clover_Area_Quality:OnChanged(function(Auto_Clover_Area_Speed_Check)
         Is_Clover_Area_Quality_Check=Auto_Clover_Area_Speed_Check
-        while Is_Clover_Area_Quality_Check do
-            for _, Clover_Area_Qualitys in ipairs(Clover_Area_Quality) do
-                    local args = {
-                    [1] = Clover_Area_Qualitys,
-                    [2] = "Clover"
+        if Is_Clover_Area_Quality_Check then
+            if Auto_Clover_Area_Quality_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Unlock Clover Area Qualitys Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
                 }
-                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+            end
+            if Auto_Clover_Area_Quality_Notification == 1 then
+                Auto_Clover_Area_Quality_Notification = Auto_Clover_Area_Quality_Notification + 1
+            end
+            while Is_Clover_Area_Quality_Check do
+                for _, Clover_Area_Qualitys in ipairs(Clover_Area_Quality) do
+                        local args = {
+                        [1] = Clover_Area_Qualitys,
+                        [2] = "Clover"
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+                end
+            end
+        else
+            if Auto_Clover_Area_Quality_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Unlock Clover Area Qualitys Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Area_Quality_Notification == 0 then
+                Auto_Clover_Area_Quality_Notification = Auto_Clover_Area_Quality_Notification + 1
             end
         end
     end)
 
-    local Auto_Clover_Upgrade = Auto_Event_Section:AddToggle("MyToggle", 
+    local Auto_Clover_Upgrade = Auto_Event_Section:AddToggle("Auto_Clover_Upgrade", 
     {
     Title = "Auto Unlock Clover Upgrades", 
     Description = "Use it for Unlocking Clover Upgrades!!",
@@ -1008,7 +1432,17 @@ if game.PlaceId == 18901165922 then
     })
     Auto_Clover_Upgrade:OnChanged(function(Auto_Clover_Upgrade_Check)
         Is_Auto_Clover_Upgrade_Check=Auto_Clover_Upgrade_Check
-        while Is_Auto_Clover_Upgrade_Check do
+        if Is_Auto_Clover_Upgrade_Check then
+            if Auto_Clover_Upgrade_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Unlock Clover Upgrades Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Clover_Upgrade_Notification == 1 then
+                Auto_Clover_Upgrade_Notification = Auto_Clover_Upgrade_Notification + 1
+            end
             if Clover_Upgrades_Counter == 0 then
                 Clover_Upgrades_Counter = Clover_Upgrades_Counter + 1
                 if Clover_Upgrades_Counter == 1 then
@@ -1019,13 +1453,25 @@ if game.PlaceId == 18901165922 then
                     end
                 end
             end
-
-            for _, upgrade in ipairs(Clover_Upgrades) do
-                local args = {
-                    [1] = upgrade
+            while Is_Auto_Clover_Upgrade_Check do
+                for _, Clover_Upgrade in ipairs(Clover_Upgrades) do
+                    local args = {
+                        [1] = Clover_Upgrade
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Upgrades_Purchase"):InvokeServer(unpack(args))
+                    task.wait()
+                end
+            end
+        else
+            if Auto_Clover_Upgrade_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Unlock Clover Upgrades Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
                 }
-                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Upgrades_Purchase"):InvokeServer(unpack(args))
-                task.wait()
+            end
+            if Auto_Clover_Upgrade_Notification == 0 then
+                Auto_Clover_Upgrade_Notification = Auto_Clover_Upgrade_Notification + 1
             end
         end
     end)
@@ -1073,7 +1519,7 @@ if game.PlaceId == 18901165922 then
         Title = "Use This Or Upgarde Specific, Dont Use Both At The Same Time!!!",
     })
 
-    local Auto_Upgrade = Auto_Upgrade_All:AddToggle("MyToggle", 
+    local Auto_Upgrade = Auto_Upgrade_All:AddToggle("Auto_Upgrade", 
     {
     Title = "Auto Upgrade All", 
     Description = "Use it for upgrading all upgrades at once!!",
@@ -1081,9 +1527,32 @@ if game.PlaceId == 18901165922 then
     })
     Auto_Upgrade:OnChanged(function(Auto_Upgrade_Check)
         Is_Auto_Upgrade_Check=Auto_Upgrade_Check
-        while Is_Auto_Upgrade_Check do
-            Auto_Upgrade_Calling:Auto_Upgrade_All()
-            task.wait()
+        if Is_Auto_Upgrade_Check then
+            if Auto_Upgrade_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Upgrade All Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Upgrade_Notification == 1 then
+                Auto_Upgrade_Notification = Auto_Upgrade_Notification + 1
+            end
+            while Is_Auto_Upgrade_Check do
+                Auto_Upgrade_Calling:Auto_Upgrade_All()
+                task.wait()
+            end
+        else
+            if Auto_Upgrade_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Upgrade All Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Upgrade_Notification == 0 then
+                Auto_Upgrade_Notification = Auto_Upgrade_Notification + 1
+            end
         end
     end)
 
@@ -1093,7 +1562,7 @@ if game.PlaceId == 18901165922 then
         Title = "Use This Or Upgarde All, Dont Use Both At The Same Time!!!",
     })
 
-    local Auto_Upgrade_Mining = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    local Auto_Upgrade_Mining = Auto_Upgrade_Specific:AddToggle("Auto_Upgrade_Mining", 
     {
     Title = "Auto Mining Upgrades", 
     Description = "Use it for only mining upgrades!!",
@@ -1107,7 +1576,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Upgrade_Fishing = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    local Auto_Upgrade_Fishing = Auto_Upgrade_Specific:AddToggle("Auto_Upgrade_Fishing", 
     {
     Title = "Auto Fishing Upgrades", 
     Description = "Use it for only fishing upgrades!!",
@@ -1121,7 +1590,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Upgrade_Ice_Fishing = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    local Auto_Upgrade_Ice_Fishing = Auto_Upgrade_Specific:AddToggle("Auto_Upgrade_Ice_Fishing", 
     {
     Title = "Auto Ice Fishing Upgrades", 
     Description = "Use it for only Ice fishing upgrades!!",
@@ -1135,7 +1604,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Upgrade_Boat_Fishing = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    local Auto_Upgrade_Boat_Fishing = Auto_Upgrade_Specific:AddToggle("Auto_Upgrade_Boat_Fishing", 
     {
     Title = "Auto Boat Fishing Upgrades", 
     Description = "Use it for only Boat fishing upgrades!!",
@@ -1149,7 +1618,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Upgrade_Leveling = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    local Auto_Upgrade_Leveling = Auto_Upgrade_Specific:AddToggle("Auto_Upgrade_Leveling", 
     {
     Title = "Auto Leveling Upgrades", 
     Description = "Use it for only Leveling section upgrades!!",
@@ -1163,7 +1632,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Upgrade_Trading = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    local Auto_Upgrade_Trading = Auto_Upgrade_Specific:AddToggle("Auto_Upgrade_Trading", 
     {
     Title = "Auto Trading Upgrades", 
     Description = "Use it for only Trading upgrades!!",
@@ -1177,7 +1646,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Upgrade_Weather = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    local Auto_Upgrade_Weather = Auto_Upgrade_Specific:AddToggle("Auto_Upgrade_Weather", 
     {
     Title = "Auto Weather Upgrades", 
     Description = "Use it for only Weather upgrades!!",
@@ -1191,7 +1660,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Upgrade_Luckier = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    local Auto_Upgrade_Luckier = Auto_Upgrade_Specific:AddToggle("Auto_Upgrade_Luckier", 
     {
     Title = "Auto Luckier Upgrades", 
     Description = "Use it for only Luckier section upgrades!!",
@@ -1205,7 +1674,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Upgrade_Thieving = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    local Auto_Upgrade_Thieving = Auto_Upgrade_Specific:AddToggle("Auto_Upgrade_Thieving", 
     {
     Title = "Auto Thieving Upgrades", 
     Description = "Use it for only Thieving section upgrades!!",
@@ -1219,7 +1688,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Upgrade_Breakables = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    local Auto_Upgrade_Breakables = Auto_Upgrade_Specific:AddToggle("Auto_Upgrade_Breakables", 
     {
     Title = "Auto Breakables Upgrades", 
     Description = "Use it for only Breakables section upgrades!!",
@@ -1233,7 +1702,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Auto_Upgrade_Boosts = Auto_Upgrade_Specific:AddToggle("MyToggle", 
+    local Auto_Upgrade_Boosts = Auto_Upgrade_Specific:AddToggle("Auto_Upgrade_Boosts", 
     {
     Title = "Auto Boosts Upgrades", 
     Description = "Use it for only Boosts section upgrades!!",
@@ -1250,8 +1719,12 @@ if game.PlaceId == 18901165922 then
 
     -- Items Section
     local Lootboxes = Tabs.Items:AddSection("| Lootboxes")
-    
-    local Open_Bundle_O_Scrolls = Lootboxes:AddToggle("MyToggle", 
+
+    Lootboxes:AddParagraph({
+        Title = "Broken, fixin' it soon",
+    })
+
+    local Open_Bundle_O_Scrolls = Lootboxes:AddToggle("Open_Bundle_O_Scrolls", 
     {
     Title = "Open Bundle O Scrolls", 
     Description = "Use it only after u have a lot of it!!",
@@ -1269,7 +1742,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Open_Bundle_O_Boosts = Lootboxes:AddToggle("MyToggle", 
+    local Open_Bundle_O_Boosts = Lootboxes:AddToggle("Open_Bundle_O_Boosts", 
     {
     Title = "Open Bundle O Boosts", 
     Description = "Use it only after u have a lot of it!!",
@@ -1289,7 +1762,11 @@ if game.PlaceId == 18901165922 then
 
     local Portions = Tabs.Items:AddSection("| Portions")
 
-    local Open_All_Portions = Portions:AddToggle("MyToggle", 
+    Portions:AddParagraph({
+        Title = "Broken, fixin' it soon",
+    })
+
+    local Open_All_Portions = Portions:AddToggle("Open_All_Portions", 
     {
     Title = "Use All Portions", 
     Description = "",
@@ -1305,7 +1782,11 @@ if game.PlaceId == 18901165922 then
 
     local Fruits = Tabs.Items:AddSection("| Fruits")
 
-    local Open_All_Fruits_Normal = Fruits:AddToggle("MyToggle", 
+    Fruits:AddParagraph({
+        Title = "Broken, fixin' it soon",
+    })
+
+    local Open_All_Fruits_Normal = Fruits:AddToggle("Open_All_Fruits_Normal", 
     {
     Title = "Use All Normal Fruits", 
     Description = "",
@@ -1319,7 +1800,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Open_All_Fruits_Shiny = Fruits:AddToggle("MyToggle", 
+    local Open_All_Fruits_Shiny = Fruits:AddToggle("Open_All_Fruits_Shiny", 
     {
     Title = "Use All Shiny Fruits", 
     Description = "",
@@ -1335,7 +1816,11 @@ if game.PlaceId == 18901165922 then
 
     local Fishing_Items = Tabs.Items:AddSection("| Baits")
 
-    local Open_All_Fishing_Chests = Fishing_Items:AddToggle("MyToggle", 
+    Fishing_Items:AddParagraph({
+        Title = "Broken, fixin' it soon",
+    })
+
+    local Open_All_Fishing_Chests = Fishing_Items:AddToggle("Open_All_Fishing_Chests", 
     {
     Title = "Open All Normal Fishing Chests", 
     Description = "",
@@ -1349,7 +1834,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Open_Frozen_Fishing_Chests = Fishing_Items:AddToggle("MyToggle", 
+    local Open_Frozen_Fishing_Chests = Fishing_Items:AddToggle("Open_Frozen_Fishing_Chests", 
     {
     Title = "Open Frozen Fishing Chests", 
     Description = "",
@@ -1368,7 +1853,7 @@ if game.PlaceId == 18901165922 then
         end
     end)
 
-    local Use_All_Normal_Baits = Fishing_Items:AddToggle("MyToggle", 
+    local Use_All_Normal_Baits = Fishing_Items:AddToggle("Use_All_Normal_Baits", 
     {
     Title = "Use All Normal Baits", 
     Description = "",
@@ -1383,9 +1868,86 @@ if game.PlaceId == 18901165922 then
     end)
 
     --shop section
+    local Merchant = Tabs.Shop:AddSection("| Merchants")
+
+    local Auto_Merchants_Select = Merchant:AddDropdown("Auto_Merchants_Select", {
+        Title = "Select Merchants",
+        Description = "Select the merchants you want to auto buy from",
+        Values = {"StandardMerchant","MiningMerchant","FishingMerchant","IceFishingMerchant","BlackMarketMerchant"},
+        Multi = true,
+        Default = {},
+    })
+    Auto_Merchants_Select:OnChanged(function(Value)
+        Auto_Merchants_Selected = {}
+        for Value, State in next, Value do
+            Auto_Merchants_Selected[#Auto_Merchants_Selected + 1] = Value
+        end
+    end)
+
+    local Merchant_Item = Merchant:AddDropdown("Merchant_Item", {
+        Title = "Select Slots",
+        Description = "Only the slots u want to buy from",
+        Values = {1, 2, 3, 4, 5, 6, 7, 8},
+        Multi = true,
+        Default = {},
+     })
+    Merchant_Item:OnChanged(function(Value)
+        Merchant_Item_Selected = {}
+        for Value, State in next, Value do
+            Merchant_Item_Selected[#Merchant_Item_Selected + 1] = Value
+        end
+    end)
+
+    local Auto_Merchant = Merchant:AddToggle("Auto_Merchant", 
+    {
+    Title = "Auto Merchant", 
+    Description = "Auto buys from the selected merchants",
+    Default = false
+    })
+
+    Auto_Merchant:OnChanged(function(Auto_Merchant_Check)
+        Is_Auto_Merchant_Check=Auto_Merchant_Check
+        if Is_Auto_Merchant_Check then
+            if Auto_Merchant_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Merchant Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Merchant_Notification == 1 then
+                Auto_Merchant_Notification = Auto_Merchant_Notification + 1
+            end
+            while Is_Auto_Merchant_Check do 
+                for _, Current_Merchant in ipairs(Auto_Merchants_Selected) do
+                    for _, Slot in ipairs(Merchant_Item_Selected) do
+                        local args = {
+                            [1] = Current_Merchant,
+                            [2] = Slot -- 1 to 8
+                        }
+                        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
+                        task.wait()
+                    end
+                end
+                task.wait()
+            end
+        else
+            if Auto_Merchant_Notification > 0 then
+            Fluent:Notify{
+                Title = "Radiant Hub Notification",
+                Content = "Auto Merchant Is Disabled",
+                Duration = 1 -- Set to nil to make the notification not disappear
+            }
+            end
+            if Auto_Merchant_Notification == 0 then
+                Auto_Merchant_Notification = Auto_Merchant_Notification + 1
+            end
+        end
+    end)
+
     local Vending_Machines = Tabs.Shop:AddSection("| Vending Machines")
 
-    local Auto_Portions_Vendng_Machine = Vending_Machines:AddToggle("MyToggle", 
+    local Auto_Portions_Vendng_Machine = Vending_Machines:AddToggle("Auto_Portions_Vendng_Machine", 
     {
     Title = "Auto Buy from Portions Vending Machine", 
     Description = "",
@@ -1393,27 +1955,61 @@ if game.PlaceId == 18901165922 then
     })
     Auto_Portions_Vendng_Machine:OnChanged(function(Auto_Portions_Vendng_Machine_Check)
         Is_Auto_Portions_Vendng_Machine_Check=Auto_Portions_Vendng_Machine_Check
-        while Is_Auto_Portions_Vendng_Machine_Check do
-            local args = {
-                [1] = "PotionVendingMachine"
-            }
+        if Is_Auto_Portions_Vendng_Machine_Check then
+            if Auto_Portions_Vendng_Machine_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Buy from Portions Vending Machine Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Portions_Vendng_Machine_Notification == 1 then
+                Auto_Portions_Vendng_Machine_Notification = Auto_Portions_Vendng_Machine_Notification + 1
+            end
+            while Is_Auto_Portions_Vendng_Machine_Check do
+                local args = {
+                    [1] = "PotionVendingMachine"
+                }
 
-            game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("VendingMachines_Purchase"):InvokeServer(unpack(args))
-            task.wait(0.1)
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("VendingMachines_Purchase"):InvokeServer(unpack(args))
+                task.wait(0.1)
+            end
+        else 
+            if Auto_Portions_Vendng_Machine_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Buy from Portions Vending Machine Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Portions_Vendng_Machine_Notification == 0 then
+                Auto_Portions_Vendng_Machine_Notification = Auto_Portions_Vendng_Machine_Notification + 1
+            end
         end
     end)
 
     -- misc section
     local Miscellaneous_Player = Tabs.Miscellaneous:AddSection("| Player")
 
-    local Auto_Bonus_Collect = Miscellaneous_Player:AddToggle("MyToggle", 
+    local Auto_Bonus_Collect = Miscellaneous_Player:AddToggle("Auto_Bonus_Collect", 
     {
     Title = "Auto Bonus Roll Collect", 
     Description = "Auto collects the bonus roll",
     Default = false
     })
     Auto_Bonus_Collect:OnChanged(function(Auto_Bonus_Collect_Check)
-            Is_Auto_Bonus_Collect_Check=Auto_Bonus_Collect_Check
+        Is_Auto_Bonus_Collect_Check=Auto_Bonus_Collect_Check
+        if Is_Auto_Bonus_Collect_Check then
+            if Auto_Bonus_Collect_Notification > 1 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Bonus Roll Collect Is Enabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Bonus_Collect_Notification == 1 then
+                Auto_Bonus_Collect_Notification = Auto_Bonus_Collect_Notification + 1
+            end
             while Is_Auto_Bonus_Collect_Check do
                 local Auto_Bonus_Collect_Timer = workspace.MAP.INTERACT.Machines.RetentionDice.Billboard.BillboardGui.Timer.Text
                 if Auto_Bonus_Collect_Timer == "CLAIM NOW!" then
@@ -1425,14 +2021,26 @@ if game.PlaceId == 18901165922 then
                 end
                 task.wait(0.1)
             end
+        else 
+            if Auto_Bonus_Collect_Notification > 0 then
+                Fluent:Notify{
+                    Title = "Radiant Hub Notification",
+                    Content = "Auto Bonus Roll Collect Is Disabled",
+                    Duration = 1 -- Set to nil to make the notification not disappear
+                }
+            end
+            if Auto_Bonus_Collect_Notification == 0 then
+                Auto_Bonus_Collect_Notification = Auto_Bonus_Collect_Notification + 1
+            end
+        end
     end)
 
     --Saving config
-    InterfaceManager:SetFolder("RadiantHub")
-    SaveManager:SetFolder("RadiantHub/PetsGO!")
-
     SaveManager:SetLibrary(Fluent)
     InterfaceManager:SetLibrary(Fluent)
+
+    InterfaceManager:SetFolder("RadiantHub")
+    SaveManager:SetFolder("RadiantHub/PetsGO!")
 
     InterfaceManager:BuildInterfaceSection(Tabs.Settings)
     SaveManager:BuildConfigSection(Tabs.Settings)
@@ -1441,8 +2049,8 @@ if game.PlaceId == 18901165922 then
 
     --Hub loaded noti
     Fluent:Notify{
-        Title = "Looter Hub Notification",
-        Content = "Succesfully Loaded Looter Hub",
+        Title = "Radiant Hub Notification",
+        Content = "Succesfully Loaded Radiant Hub",
         SubContent = "Enjoy your time :)", -- Optional
         Duration = 3 -- Set to nil to make the notification not disappear
     }
