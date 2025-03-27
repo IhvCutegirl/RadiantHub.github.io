@@ -1068,11 +1068,6 @@ if game.PlaceId == 18901165922 then
 
     --Event Section
 
-    Tabs.Auto_Event:AddParagraph({
-        Title = "SOON",
-        Content = "Will fix it after items has been fixed"
-    })
-
     --Stats Section
     --[[local Boat_Fishing_Loot_Stats = Tabs.Stats:AddSection("| Boat Fishing Loot")
 
